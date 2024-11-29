@@ -1,0 +1,73 @@
+.reports-page {
+    padding: 20px;
+    background-color: var(--bg-color, #f8f9fa);
+    /* يمكنك تخصيص الألوان */
+    color: var(--text-color, #333);
+    /* استخدام ألوان ديناميكية */
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.reports-page.dark-mode {
+    --bg-color: #1e293b;
+    --text-color: #f8f9fa;
+}
+
+h1 {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.summary-section {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.summary-card {
+    background-color: var(--card-bg-color, #fff);
+    color: var(--card-text-color, #333);
+    border-radius: 10px;
+    padding: 20px;
+    width: 250px;
+    text-align: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.summary-card h2 {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+.summary-card p {
+    font-size: 24px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.export-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+}
+
+.export-buttons button {
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.charts-section {
+    text-align: center;
+    margin-top: 40px;
+}
+
+.charts-section p {
+    font-size: 16px;
+    color: #777;
+}

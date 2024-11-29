@@ -1,0 +1,26 @@
+:root {
+    --skeleton: linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%);
+
+}
+
+.skeleton-custom {
+
+
+
+    display: block;
+    background: var(--skeleton);
+    background-size: 200% 100%;
+    animation: shine 2s linear infinite;
+    border-radius: 4px;
+    -webkit-animation: shine 2s linear infinite;
+}
+
+@keyframes shine {
+    0% {
+        background-position: 200% 0;
+    }
+
+    100% {
+        background-position: -200% 0;
+    }
+}

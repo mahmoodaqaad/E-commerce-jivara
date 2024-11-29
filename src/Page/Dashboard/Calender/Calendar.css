@@ -1,0 +1,29 @@
+/* Calendar.css */
+.rbc-calendar {
+    background: #f8f9fa;
+    /* خلفية فاتحة للتقويم */
+}
+
+.rbc-toolbar {
+    background-color: #007bff;
+    /* شريط أدوات بلون أساسي */
+    color: white;
+    /* لون نص أبيض */
+}
+
+.rbc-event {
+    background-color: #28a745;
+    /* لون الحدث */
+    color: white;
+    /* لون نص أبيض داخل الحدث */
+}
+
+.rbc-today {
+
+    background-color: #aaa;
+}
+
+.rbc-off-range-bg {
+    background-color: transparent;
+
+}

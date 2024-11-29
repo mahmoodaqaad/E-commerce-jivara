@@ -1,0 +1,44 @@
+.form {
+    padding: 10px 30px;
+    border-radius: 8px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    -ms-border-radius: 8px;
+    -o-border-radius: 8px;
+    width: 400px;
+
+    h1 {
+        text-align: center;
+        margin-bottom: 30px;
+    }
+}
+
+.form .inputForm {
+    padding: 0 10px;
+    position: relative;
+    margin-bottom: 30px;
+    border-radius: 10px;
+
+    overflow: hidden;
+
+    .inputIcon {
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 40px;
+        height: 100%;
+        left: 0;
+        top: 0;
+    }
+
+    input {
+        width: 100%;
+        padding: 15px 0;
+    }
+}
+
+.inputForm:has(.inputIcon) {
+
+    padding: 0 10px 0 45px;
+}

@@ -1,0 +1,28 @@
+.inputForm .inputgroup,
+select {
+    width: 100%;
+    display: block;
+    padding: 15px 10px;
+    border: 1px solid #aaa;
+    margin-bottom: 30px;
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+    max-width: 95%;
+    background: var(--background);
+    color: var(--color);
+
+    input {
+        width: 100%;
+        color: var(--color);
+        background-color: transparent;
+    }
+}
+
+select:disabled {
+
+    border: 1px solid #000;
+    background: #aaa;
+}

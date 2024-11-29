@@ -1,0 +1,35 @@
+.topbar {
+
+    background: var(--backgroundtopbar);
+    position: sticky;
+    top: 0;
+    z-index: 212112;
+}
+
+.icons .icon {
+    width: 40px;
+    height: 40px;
+    color: var(--color);
+    border-radius: 50%;
+    background: var(--background);
+    -webkit-border-radius: 50%;
+    -moz-border-radius: 50%;
+    -ms-border-radius: 50%;
+    -o-border-radius: 50%;
+}
+
+.bars {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-color: var(--background);
+    color: var(--main-color);
+    border-radius: 6px;
+    -webkit-border-radius: 6px;
+    -moz-border-radius: 6px;
+    -ms-border-radius: 6px;
+    -o-border-radius: 6px;
+}

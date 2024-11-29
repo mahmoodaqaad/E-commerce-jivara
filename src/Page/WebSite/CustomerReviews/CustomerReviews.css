@@ -1,0 +1,44 @@
+.customer-reviews {
+    background: linear-gradient(135deg, #f3f4f6, #e2e8f0);
+    border-radius: 20px;
+    padding: 40px;
+}
+
+.customer-reviews h2 {
+    font-size: 2.5rem;
+    color: #333;
+}
+
+.reviews-carousel {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 10px;
+}
+
+.review-card {
+    flex: 0 0 300px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 20px;
+    scroll-snap-align: start;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.review-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.review-text {
+    font-size: 1rem;
+    color: #555;
+}
+
+.review-author {
+    font-size: 0.9rem;
+    color: #777;
+    margin-top: 10px;
+}
