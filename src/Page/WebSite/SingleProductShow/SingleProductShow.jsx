@@ -124,7 +124,7 @@ const SingleProductShow = () => {
                         </> :
                         <>
 
-                            <div className='d-flex justify-content-between '>
+                            <div className='d-flex  justify-content-between '>
                                 <h1 className='mb-3'>{product.title}</h1>
 
                                 <div className='pointer'>

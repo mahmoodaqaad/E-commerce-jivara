@@ -64,9 +64,9 @@ export function CategorySkeleton() {
 
                     </div>
                     <div className=''>
-                        <p className='fs-4 mb-0' >
+                        <div className='fs-4 mb-0' >
                             <SkeletonShow width="90px" length={1} />
-                        </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -95,9 +95,9 @@ export function RatedSkeleto() {
                     <div className="d-flex justify-content-between">
                         <div className="w-100">
                             <h3 className='mb-1'>< SkeletonShow length={1} width={"60%"} /></h3>
-                            <p className="mb-1"> < SkeletonShow length={1} width={"90%"} /></p>
-                            <p className="mb-1"> < SkeletonShow length={1} width={"80%"} /></p>
-                            <p className="mb-1"> < SkeletonShow length={1} width={"50px"} /></p>
+                            <div className="mb-1"> < SkeletonShow length={1} width={"90%"} /></div>
+                            <div className="mb-1"> < SkeletonShow length={1} width={"80%"} /></div>
+                            <div className="mb-1"> < SkeletonShow length={1} width={"50px"} /></div>
                         </div>
                         <div className='pointer'>
                             <FontAwesomeIcon icon={faBookmark} />

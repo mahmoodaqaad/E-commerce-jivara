@@ -1,5 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
-import Cookies from 'universal-cookie'
+import Cookies from "universal-cookie";
 import { jwtDecode } from 'jwt-decode';
 import { Axios } from '../API/Axios';
 import { ACategories, ALogout, AProducts, AUser, BaseURL } from '../API/API';
@@ -20,7 +20,6 @@ const MyState = ({ children }) => {
     const [SavedProducts, setSavedProducts] = useState([])
     const [serach, setSerarch] = useState("")
     const cookies = new Cookies();
-
 
 
 
@@ -274,7 +273,7 @@ const MyState = ({ children }) => {
 
     function GetAllUsers() {
 
-        Axios.get(`/users`).then(res => {
+        axios.get(`${BaseURL}/users`).then(res => {
             setUsers(res.data.data);
 
         }).catch(e => { }

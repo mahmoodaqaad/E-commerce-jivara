@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import './Header.css'
-import { faArrowRightFromBracket, faCartShopping, faDashboard, faMoon, faSun, faUser, faX } from '@fortawesome/free-solid-svg-icons'
+import { faCartShopping, faMoon, faSun, faUser, faX } from '@fortawesome/free-solid-svg-icons'
 import { MyContext } from '../../../Context/MyState'
 import axios from 'axios'
 import { BaseURL } from '../../../API/API'
@@ -12,7 +12,7 @@ import { Button, Modal } from 'react-bootstrap'
 import Searched from '../../../Page/WebSite/Searched/Searched'
 const Header = () => {
 
-    const { SetDarkMode, darkMode, Logout, CurrentUser, GetCurrentUser, isChangeInCart, products, GetAllProducts } = useContext(MyContext)
+    const { SetDarkMode, darkMode,  CurrentUser, GetCurrentUser, isChangeInCart, products, GetAllProducts } = useContext(MyContext)
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(false)
     const [showModle, setShowModle] = useState(false)
@@ -132,16 +132,16 @@ const Header = () => {
                                 <div className='searchIcon position-absolute pointer'>
                                     <FontAwesomeIcon icon={faSearch} />
                                 </div>
-                                <input type="text" placeholder='search' value={search}  onChange={e => {
+                                <input type="text" placeholder='search' value={search} onChange={e => {
                                     setShow(true)
                                     setSearch(e.target.value)
                                 }} className='ms-4 ps-3 w-100' />
                             </div>
 
 
-                            {(show&&search) &&
+                            {(show && search) &&
 
-                                <div  className='mt-4 position-absolute border   search-data w-100' style={{ background: "var(--gb-card)" }}>
+                                <div className='mt-4 position-absolute border   search-data w-100' style={{ background: "var(--gb-card)" }}>
 
                                     <Searched serach={search} setSearch={setSearch} />
                                 </div>

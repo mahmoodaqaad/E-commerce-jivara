@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useContext, useState } from 'react'
 import Header from '../../Components/WebSite/Header/Header'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faLock, faUser } from '@fortawesome/free-solid-svg-icons'
@@ -6,12 +6,29 @@ import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { ALogin, BaseURL } from '../../API/API'
 import Cookies from 'universal-cookie'
+import { MyContext } from '../../Context/MyState'
+import { useEffect } from 'react'
 const Login = () => {
     const cookie = new Cookies()
     const [form, setForm] = useState({
         email: "",
         password: ""
     })
+    const { GetAllUsers, users } = useContext(MyContext);
+
+    useEffect(() => {
+        GetAllUsers()
+    }
+        , [])
+    console.log((users));
+    const { CurrentUser, GetCurrentUser } = useContext(MyContext);
+
+    useEffect(() => {
+        GetCurrentUser()
+    }
+        , [])
+    console.log((CurrentUser));
+
     const [err, setErr] = useState("")
     const Navigate = useNavigate()
     const handleOnchange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
@@ -21,24 +38,25 @@ const Login = () => {
 
         try {
             const res = await axios.post(`${BaseURL}/${ALogin}`, form)
+console.log(res);
 
             const token = res.data.token
             cookie.set("ecommerce_jivara", token);
 
-            if (res.status === 200) {
-                if (res?.data?.data[0]?.role === "1990") {
-                    Navigate("/dashboard")
+            // if (res.status === 200) {
+            //     if (res?.data?.data[0]?.role === "1990") {
+            //         Navigate("/dashboard")
 
-                }
-                else {
-                    Navigate("/")
+            //     }
+            //     else {
+            //         Navigate("/")
 
-                }
-            }
+            //     }
+            // }
 
 
         } catch (e) {
-            setErr(e.response.data.message)
+            setErr(e?.response?.data?.message)
 
         }
     }

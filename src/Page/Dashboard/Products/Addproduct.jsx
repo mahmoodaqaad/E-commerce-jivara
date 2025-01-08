@@ -1,10 +1,10 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Axios } from '../../../API/Axios'
-import { ACategories, AProduct, BaseURL } from '../../../API/API'
-import axios from 'axios'
+import { ACategories, AProduct } from '../../../API/API'
 import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 import { MyContext } from '../../../Context/MyState'
+import axios from 'axios'
 
 const Addproduct = () => {
     const [form, setForm] = useState({
@@ -24,32 +24,75 @@ const Addproduct = () => {
         Axios.get(`/${ACategories}`).then(res => setcatygoreis(res.data.data)
         )
     }, [])
+    // images 
     const handleCahngeImg = (e) => {
 
         setImages(prev => [...prev, ...e.target.files])
     }
 
+    // data  
     const handleCahnge = (e) => {
-
         setForm({ ...form, [e.target.name]: e.target.value })
     }
 
 
-    async function handleSubmit(e) {
+    // submit 
+
+    // async function x(e) {
+    //     e.preventDefault()
+
+    //     try {
+    //         const formdata = new FormData()
+
+    //         formdata.append("form", JSON.stringify(form))
+
+    //         for (let i = 0; i < images.length; i++) {
+
+    //             formdata.append("images", images[i])
+    //         }
+
+
+    //         const res = await Axios.post(`/${AProduct}/add`, formdata)
+    //         if (res.status === 200) {
+    //             Navigate("/dashboard/products")
+
+    //             Swal.fire({
+
+    //                 icon: "success",
+    //                 confirmButtonColor: "#3085d6",
+    //                 confirmButtonText: res.data.message,
+    //                 background: darkMode ? "#333" : "#fff",
+    //                 color: !darkMode ? "#333" : "#fff",
+    //             })
+    //         }
+    //     } catch (e) {
+    //         console.log(e);
+    //     }
+    // }
+
+    const handleSubmit = async (e) => {
         e.preventDefault()
 
         try {
-            const formdata = new FormData()
 
-            formdata.append("form", JSON.stringify(form))
+            const uplpadProductImgs = []
+            const uploadPromises = images.map(async (image) => {
 
-            for (let i = 0; i < images.length; i++) {
+                const dataForm = new FormData()
+                dataForm.append("file", image)
+                dataForm.append("upload_preset", "e-commerce_j")
 
-                formdata.append("images", images[i])
-            }
+                dataForm.append("cloud_name", "ddoj9gsda")
 
+                const res = await axios.post(`https://api.cloudinary.com/v1_1/ddoj9gsda/image/upload`, dataForm);
 
-            const res = await Axios.post(`/${AProduct}/add`, formdata)
+                return res.data.secure_url;
+            })
+            const urls = await Promise.all(uploadPromises)
+
+            uplpadProductImgs.push(...urls)
+
+            const res = await Axios.post(`/${AProduct}/add`, { form, images: uplpadProductImgs })
             if (res.status === 200) {
                 Navigate("/dashboard/products")
 
@@ -62,11 +105,17 @@ const Addproduct = () => {
                     color: !darkMode ? "#333" : "#fff",
                 })
             }
-        } catch (e) {
-            console.log(e);
+
+        } catch (error) {
+            console.log(error);
+
         }
+
+
+
     }
 
+    // delete img 
     function handleDelteImg(img) {
         console.log(img);
 
@@ -75,7 +124,7 @@ const Addproduct = () => {
 
         setImages(newImage)
     }
-
+    //  show img 
     const ShowNewImage = images?.map(img => (
         <div key={img} className=" border rounded-1 mb-2 p-2">
 
@@ -100,7 +149,12 @@ const Addproduct = () => {
         </div>
     ))
 
+    // show chaty 
+
     const showCate = catygoreis?.map(item => <option key={item.id} value={item.id}>{item.name}</option>)
+
+
+
     return (
         <div className=' col-12 col-md-6 bg-card p-3 m-auto text-center'>
 

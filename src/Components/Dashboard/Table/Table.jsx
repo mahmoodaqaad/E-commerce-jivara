@@ -200,7 +200,10 @@ const TableShow = (props) => {
                                                             ? `${data[head.key]} (YOU)`
                                                             : head.key === 'lastLogin' && !data[head.key]
                                                                 ? <span style={{ color: '#c83f3f' }}>Not Login Yet</span>
-                                                                : data[head.key]}
+                                                                : head.key === "discrption" ? (data[head.key]).slice(0,50)+" ..."
+                                                                : data[head.key]
+                            
+                            }
                         </td>
                     )
                 })}
@@ -232,7 +235,7 @@ const TableShow = (props) => {
     });
 
     // filterd 
-    const filterOprtionShow = options?.map(item => (<option key={item} value={item.key}>{item.name}</option>))
+    const filterOprtionShow = options?.map(item => (<option key={item.name} value={item.key}>{item.name}</option>))
 
     return (
         <div className='mw-100'>
@@ -315,7 +318,7 @@ const TableShow = (props) => {
             <div className=''>
                 <div className=''>
                     <div className='col-12 col-sm-2 '>
-                        <select name="" id="" className='py-1' value={limit} onChange={(e) => { setLimit(e.target.value) }}>
+                        <select  className='py-1' value={limit} onChange={(e) => { setLimit(e.target.value) }}>
 
                             <option value="3">3</option>
                             <option value="5">5</option>

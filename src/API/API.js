@@ -1,4 +1,5 @@
-export const BaseURL = "http://localhost:8081"
+export const BaseURL = "https://e-commerce-jivara-backend-hl0c.onrender.com"
+// export const BaseURL = "http://localhost:8081"
 
 export const ALogin = 'login'
 export const ALogout = 'logout'

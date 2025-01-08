@@ -6,7 +6,7 @@ import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { MyContext } from '../../../Context/MyState'
-import { ACategory, BaseURL } from '../../../API/API'
+import { ACategory } from '../../../API/API'
 import { Axios } from '../../../API/Axios'
 const AddCategory = () => {
     const [name, setName] = useState()
@@ -18,25 +18,57 @@ const AddCategory = () => {
 
 
 
+    // const x = async (e) => {
+    //     e.preventDefault()
+    //     if (!image || !name) {
+    //         return Swal.fire({
+
+    //             icon: "warning",
+    //             confirmButtonColor: "#3085d6",
+    //             confirmButtonText: "All Fileds are required",
+    //             background: darkMode ? "#333" : "#fff",
+    //             color: !darkMode ? "#333" : "#fff",
+    //         })
+    //     }
+    //     try {
+    //         const form = new FormData()
+    //         form.append("name", name)
+    //         form.append("image", image)
+
+    //         const res = await Axios.post(`/${ACategory}/add`, form)
+
+    //         if (res.status === 200) {
+    //             Navigate("/dashboard/categories")
+
+    //             Swal.fire({
+
+    //                 icon: "success",
+    //                 confirmButtonColor: "#3085d6",
+    //                 confirmButtonText: res.data.message,
+    //                 background: darkMode ? "#333" : "#fff",
+    //                 color: !darkMode ? "#333" : "#fff",
+    //             })
+    //         }
+    //     } catch (e) {
+    //         console.log(e);
+
+    //     }
+
+    // }
+
     const handleAddCategory = async (e) => {
+
         e.preventDefault()
-        if (!image || !name) {
-            return Swal.fire({
-
-                icon: "warning",
-                confirmButtonColor: "#3085d6",
-                confirmButtonText: "All Fileds are required",
-                background: darkMode ? "#333" : "#fff",
-                color: !darkMode ? "#333" : "#fff",
-            })
-        }
         try {
-            const form = new FormData()
-            form.append("name", name)
-            form.append("image", image)
 
-            const res = await Axios.post(`/${ACategory}/add`, form)
+            const formdata = new FormData()
 
+            formdata.append("file", image)
+            formdata.append("upload_preset", "snoper-chat");
+            formdata.append("cloud_name", "ddoj9gsda");
+            const resImage = await axios.post(`https://api.cloudinary.com/v1_1/ddoj9gsda/image/upload`, formdata);
+            const imageUrl = resImage.data.secure_url
+            const res = await Axios.post(`/${ACategory}/add`, { name, image: imageUrl })
             if (res.status === 200) {
                 Navigate("/dashboard/categories")
 
@@ -49,13 +81,12 @@ const AddCategory = () => {
                     color: !darkMode ? "#333" : "#fff",
                 })
             }
-        } catch (e) {
-            console.log(e);
+
+        } catch (error) {
+            console.log(error);
 
         }
-
     }
-
 
 
     return (
@@ -91,7 +122,7 @@ const AddCategory = () => {
                             </p>
                         </div>                    </div>}
                     <button type="submit" disabled={!image || !name ? true : false} className='btn btn-info mt-3 px-4 fs-5 col-4'>Submit</button>
-                </form>
+                </form> 
             </div>
         </div >
 

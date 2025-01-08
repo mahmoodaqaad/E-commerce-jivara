@@ -53,8 +53,8 @@ const TopRated = () => {
                         :
 
 
-                        topRated?.map(item => (
-                            <RatedOneProuduct product={item} />
+                        topRated?.map((item, i) => (
+                            <RatedOneProuduct key={i} product={item} />
                         ))}
             </div>
         </div >

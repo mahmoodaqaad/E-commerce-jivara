@@ -21,14 +21,15 @@ const TopChannel = ({ mode }) => {
         <div className={` rounded px-4 overflow-auto bg-card ${!mode && "shodow"}`} >
             <h3 className='pt-3 '>Top Channel</h3>
             <Table className='table-show mt-4 rounded' striped hover >
-                <thead >
-
+                <thead>
                     <tr>
                         {header.map((head, key) => (
-
-                            <td key={key} className='py-3 ' style={{ color: "white", width: head.name === "Source" && "150px", background: "rgb(49 61 74) " }}>{head.name}</td>
-                        ))}                    </tr>
+                            <th key={key} className='py-3 ' style={{ color: "white", width: head.name === "Source" && "150px", background: "rgb(49 61 74) " }}>{head.name}</th>
+                        ))}
+                    </tr>
                 </thead>
+
+
                 <tbody>
 
                     {CahnnelTable.map((item, key) => (

@@ -20,7 +20,6 @@ const Saved = () => {
         GetAllProducts()
 
     }, [])
-    console.log(SavedProducts);
 
 
     useEffect(() => {
@@ -46,7 +45,7 @@ const Saved = () => {
 
             setErr("")
         }
-   
+
     }, [products, SavedProducts, saved.length])
 
 

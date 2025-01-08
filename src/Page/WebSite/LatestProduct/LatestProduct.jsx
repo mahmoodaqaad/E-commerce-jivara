@@ -22,7 +22,6 @@ const LatestProduct = () => {
         )
 
     }, [])
-    console.log(Latest);
 
     return (
         <div className="border shadow p-2 rounded-3 ">
@@ -64,9 +63,9 @@ const LatestProduct = () => {
 
                             </>
                             :
-                            Latest.map(product => (
+                            Latest.map((product, i) => (
 
-                                <div className="col-12 col-md-6 col-lg-12 col-xl-6">
+                                <div key={i} className="col-12 col-md-6 col-lg-12 col-xl-6">
                                     <div className='shadow px-2 py-3 rounded '>
 
                                         <SingleProduct product={product} />

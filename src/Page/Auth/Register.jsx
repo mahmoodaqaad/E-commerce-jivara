@@ -27,14 +27,14 @@ const Register = () => {
 
             const token = res.data.token
             cookie.set("ecommerce_jivara", token);
-            if (res.status === 200) {
+            if (res?.status === 200) {
 
                 Navigate("/")
             }
 
 
         } catch (e) {
-            setErr(e.response.data.message)
+            setErr(e?.response?.data?.message)
 
 
         }

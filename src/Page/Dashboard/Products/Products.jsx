@@ -12,13 +12,13 @@ const Products = () => {
     const [loading, setLoading] = useState(false)
     const [page, setPage] = useState(1)
     const [total, setTotal] = useState(0)
-    const [limit, setLimit] = useState(10)
+    const [limit, setLimit] = useState(3)
     const [search, setSearch] = useState("")
     const [beforesearch, setBeforeSearch] = useState("")
     const [filterData, setFilterData] = useState("title")
     const [orderByFilter, setOrderByFilter] = useState("ASC")
     const { darkMode } = useContext(MyContext);
-
+ 
 
     // get all product 
     useEffect(() => {
@@ -63,7 +63,7 @@ const Products = () => {
         { key: "discrption", name: "discrption" },
         { key: "category_id", name: "category_id" },
         { key: "category_name", name: "category" },
-        { key: "stok", name: "Count" },
+        { key: "stok", name: "Stok" },
         { key: "created", name: "created" },
         { key: "price", name: "price" },
 
