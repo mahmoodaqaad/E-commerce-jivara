@@ -2,6 +2,7 @@ import React from 'react'
 import { Outlet } from 'react-router-dom'
 
 import Header from '../../Components/WebSite/Header/Header'
+import Footer from '../../Components/WebSite/Footer/Footer'
 
 const WebSite = () => {
     return (<div className='min-vh-100'>
@@ -12,6 +13,7 @@ const WebSite = () => {
                 <Outlet />
             </div>
         </div>
+        <Footer />
     </div>
     )
 }

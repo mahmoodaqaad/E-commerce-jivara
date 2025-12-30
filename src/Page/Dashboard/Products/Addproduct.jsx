@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import { useNavigate } from 'react-router-dom'
 import { MyContext } from '../../../Context/MyState'
 import axios from 'axios'
+import Loading from '../../../Components/loading/Loading'
 
 const Addproduct = () => {
     const [form, setForm] = useState({
@@ -19,6 +20,7 @@ const Addproduct = () => {
     const [catygoreis, setcatygoreis] = useState([])
     const Navigate = useNavigate()
     const { darkMode } = useContext(MyContext);
+    const [loading, setLoading] = useState(false)
 
     useEffect(() => {
         Axios.get(`/${ACategories}`).then(res => setcatygoreis(res.data.data)
@@ -72,7 +74,7 @@ const Addproduct = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault()
-
+        setLoading(true)
         try {
 
             const uplpadProductImgs = []
@@ -107,19 +109,20 @@ const Addproduct = () => {
             }
 
         } catch (error) {
-            console.log(error);
+            // console.log(error);
 
         }
+        finally {
+            setLoading(false)
 
+        }
 
 
     }
 
     // delete img 
     function handleDelteImg(img) {
-        console.log(img);
 
-        console.log(images[0]);
         const newImage = images.filter(item => item !== img)
 
         setImages(newImage)
@@ -188,13 +191,14 @@ const Addproduct = () => {
                         </label>
                         <input type="file" id="img" hidden multiple onChange={handleCahngeImg} />
                     </div>
-                    <button type="submit" disabled={form.title === "" || form.price === 0 || form.category === null || form.discrption === "" || !images.length ? true : false} className="btn btn-info mt-3 px-4 fs-5">
-                        Submit
+                    <button type="submit" disabled={(form.title === "" || form.price === 0 || form.category === null || form.discrption === "" || !images.length || loading) ? true : false} className="btn btn-info mt-3 px-4 fs-5">
+                        {loading ? "loading ..." : "Submit"}
                     </button>
                 </form>
 
 
             </div>
+            {loading && <Loading />}
 
             {images.length > 0 && (
                 <div className='col-8 mx-auto mt-4'>

@@ -13,7 +13,7 @@ const LatestProduct = () => {
         Axios.get(`/product/latest`).then(res => {
             setLatest(res.data.data);
         }).catch(e => {
-            console.log(e);
+            // console.log(e);
 
         }).finally(e => {
             setLoading(false)

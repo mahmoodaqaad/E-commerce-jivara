@@ -36,32 +36,31 @@ const SingleProduct = ({ product }) => {
 
 
     const SavedProduct = () => {
+        try {
 
-        if (CurrentUser?.id) {
-            if (!save) {
-                Axios.post(`${BaseURL}/updateSave`, { savedProduct: product, type: true }).then(e => console.log(e)).catch(e => {
-                    console.log(e);
-                })
-                setSave(true)
+            if (CurrentUser?.id) {
+                if (!save) {
+                    Axios.post(`${BaseURL}/updateSave`, { savedProduct: product, type: true })
+                    setSave(true)
+
+                }
+                else {
+                    Axios.post(`${BaseURL}/updateSave`, { savedProduct: product, type: false })
+                    setSave(false)
+                }
+            } else {
+
+
+
+
+                Navgite("/login")
+
 
             }
-            else {
-                Axios.post(`${BaseURL}/updateSave`, { savedProduct: product, type: false }).then(e => console.log(e)).catch(e => {
-                    console.log(e);
-                })
-                setSave(false)
-            }
-        } else {
-
-
-
-
-            Navgite("/login")
-
+        } catch (e) {
 
         }
     }
-
 
 
     function addToCart() {
@@ -121,7 +120,7 @@ const SingleProduct = ({ product }) => {
             <Link className='w-100 text-center d-block' to={`/product/${product?.id}`}>
                 <img className='img-fluid rounded-1 img-product' src={image[0]} alt="" />
             </Link>
-         
+
             <div className='info mt-2 px-2'>
                 <div>
                     <div className='d-flex justify-content-between align-items-center'>

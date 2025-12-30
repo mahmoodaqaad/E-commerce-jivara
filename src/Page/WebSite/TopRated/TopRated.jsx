@@ -19,7 +19,7 @@ const TopRated = () => {
         Axios.get(`/product/topRated`).then(res => {
             setTopRated(res.data.data);
         }).catch(e => {
-            console.log(e);
+            // console.log(e);
 
         }).finally(e => {
             setLoading(false)
@@ -91,27 +91,28 @@ const RatedOneProuduct = ({ product }) => {
 
     const SavedProduct = () => {
 
-        if (CurrentUser?.id) {
-            if (!save) {
-                Axios.post(`/updateSave`, { savedProduct: product, type: true }).then(e => console.log(e)).catch(e => {
-                    console.log(e);
-                })
-                setSave(true)
+        try {
+            if (CurrentUser?.id) {
+                if (!save) {
+                    Axios.post(`/updateSave`, { savedProduct: product, type: true })
+                    setSave(true)
+
+                }
+                else {
+                    Axios.post(`/updateSave`, { savedProduct: product, type: false })
+                    setSave(false)
+                }
+            } else {
+
+
+
+
+                Navgite("/login")
+
 
             }
-            else {
-                Axios.post(`/updateSave`, { savedProduct: product, type: false }).then(e => console.log(e)).catch(e => {
-                    console.log(e);
-                })
-                setSave(false)
-            }
-        } else {
 
-
-
-
-            Navgite("/login")
-
+        } catch (error) {
 
         }
     }

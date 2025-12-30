@@ -8,12 +8,14 @@ import axios from 'axios'
 import { MyContext } from '../../../Context/MyState'
 import { ACategory } from '../../../API/API'
 import { Axios } from '../../../API/Axios'
+import Loading from '../../../Components/loading/Loading'
 const AddCategory = () => {
     const [name, setName] = useState()
     const [image, setImage] = useState()
 
     const Navigate = useNavigate()
     const { darkMode } = useContext(MyContext);
+    const [loading, setLoading] = useState(false)
 
 
 
@@ -59,6 +61,7 @@ const AddCategory = () => {
     const handleAddCategory = async (e) => {
 
         e.preventDefault()
+        setLoading(true)
         try {
 
             const formdata = new FormData()
@@ -83,13 +86,16 @@ const AddCategory = () => {
             }
 
         } catch (error) {
-            console.log(error);
+            // console.log(error);
 
+        } finally {
+            setLoading(false)
         }
     }
 
 
     return (
+
         <div className=' col-12 col-md-6 bg-card p-3 m-auto text-center'>
 
 
@@ -121,9 +127,10 @@ const AddCategory = () => {
                                     : Number(image.size / 1024).toFixed(1) + " KB"}
                             </p>
                         </div>                    </div>}
-                    <button type="submit" disabled={!image || !name ? true : false} className='btn btn-info mt-3 px-4 fs-5 col-4'>Submit</button>
-                </form> 
+                    <button type="submit" disabled={!image || !name || loading ? true : false} className='btn btn-info mt-3 px-4 fs-5 col-4'>{loading ? "loading ..." : "Submit"}</button>
+                </form>
             </div>
+            {loading && <Loading />}
         </div >
 
     )

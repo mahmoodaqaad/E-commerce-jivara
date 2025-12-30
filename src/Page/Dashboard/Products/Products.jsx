@@ -31,7 +31,9 @@ const Products = () => {
 
 
         }
-        ).catch(e => console.log(e)
+        ).catch(e => {
+            // console.log(e)
+        }
         ).finally(() => {
 
             setLoading(false)
@@ -49,7 +51,6 @@ const Products = () => {
 
         }
         catch (e) {
-            console.log(e);
 
         }
 

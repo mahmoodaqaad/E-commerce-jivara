@@ -21,6 +21,7 @@ const EditProduct = () => {
     const Navigate = useNavigate()
     const [imageFormServer, setImageFormServer] = useState([])
     const [loading, setLoading] = useState()
+    const [sentloading, setSentLoading] = useState(false)
 
     const { id } = useParams()
 
@@ -53,7 +54,7 @@ const EditProduct = () => {
         axios.get(`${BaseURL}/categories`).then(res =>
             setcatygoreis(res.data.data)
         ).catch(e => {
-            console.log(e);
+            // console.log(e);
         }
         ).finally(() => {
             setLoading(false)
@@ -75,6 +76,7 @@ const EditProduct = () => {
 
     async function handleEdit(e) {
         e.preventDefault()
+
         if (form.title === "" || form.price === 0 || form.category === "" || form.discrption === "") {
             return Swal.fire({
 
@@ -86,6 +88,8 @@ const EditProduct = () => {
             })
 
         }
+        setSentLoading(true)
+
         try {
             const formdata = new FormData()
 
@@ -102,7 +106,6 @@ const EditProduct = () => {
 
 
             const res = await Axios.post(`/${AProduct}/edit/${id}`, formdata)
-            console.log(res);
 
             if (res.status === 200) {
                 Navigate("/dashboard/products")
@@ -117,7 +120,12 @@ const EditProduct = () => {
                 })
             }
         } catch (e) {
-            console.log(e);
+            // console.log(e);
+        } finally {
+
+
+            setSentLoading(false)
+
         }
     }
 
@@ -193,9 +201,9 @@ const EditProduct = () => {
                     }
 
                 } catch (e) {
-                    console.log(e);
+                    // console.log(e);
                 }
-       
+
             }
         })
     }
@@ -255,12 +263,12 @@ const EditProduct = () => {
                             <input type="file" id="img" hidden multiple onChange={e => setImages(prev => [...prev, ...e.target.files])} />
                         </div>
                         <button type="submit"
-                            disabled={form.title === "" || form.price === 0 || form.category === "" || form.discrption === "" ? true : false}
+                            disabled={form.title === "" || form.price === 0 || form.category === "" || form.discrption === "" || loading ? true : false}
                             className="btn btn-info mt-3 px-4 fs-5">
-                            Submit
-                        </button>
+                            {sentloading ? "loading ..." : "Edit"}                        </button>
                     </form>
                 </div>
+                {sentloading && <Loading />}
 
                 {images.length > 0 && (
                     <div className='col-8 mx-auto mt-4'>

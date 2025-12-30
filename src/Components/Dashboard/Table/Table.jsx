@@ -46,8 +46,11 @@ const TableShow = (props) => {
         return <div className='d-flex gap-2 flex-wrap'>{
 
             newImage.map((img, key) => (
-
+                <div>
+                
+                
                 < img key={key} width={"40px"} loading='lazy' src={img} alt="" />
+                </div>
 
             ))
         }

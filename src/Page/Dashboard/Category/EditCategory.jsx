@@ -15,6 +15,7 @@ const EditCategory = () => {
     const { id } = useParams()
     const { darkMode } = useContext(MyContext);
 
+    const [sentloading, setSentLoading] = useState(false)
 
     useEffect(() => {
         setLoading(true)
@@ -23,7 +24,7 @@ const EditCategory = () => {
         }).catch(e => {
             Navigate("/dashboard/404")
 
-            console.log(e)
+            // console.log(e)
         }
         ).finally(() => setLoading(false))
 
@@ -34,7 +35,7 @@ const EditCategory = () => {
 
     const handleEdit = async (e) => {
         e.preventDefault()
-
+        setSentLoading(true)
         try {
             const form = new FormData()
             form.append("name", name)
@@ -55,7 +56,12 @@ const EditCategory = () => {
                 })
             }
         } catch (e) {
-            console.log(e);
+            // console.log(e);
+
+        } finally {
+
+
+            setSentLoading(false)
 
         }
 
@@ -90,8 +96,9 @@ const EditCategory = () => {
 
 
 
-                    <button type="submit" className='btn btn-info mt-3 px-4 fs-5 col-4'>Edit</button>
+                    <button type="submit" disabled={loading} className='btn btn-info mt-3 px-4 fs-5 col-4'>{sentloading ? "loading ..." : "Edit"}</button>
                 </form>
+                {sentloading && <Loading />}
 
                 {
                     // formServer ?

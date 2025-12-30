@@ -42,7 +42,9 @@ const SingleProductShow = () => {
                 setProduct(res.data.data[0])
                 setProductimage(JSON.parse(res.data.data[0]?.images).map(item => { return { original: item, thumbnail: item } }));
 
-            }).catch(e => console.log(e)
+            }).catch(e => {
+                // console.log(e)
+            }
             )
             .finally(_ => setLoading(false))
     }, [id])
@@ -62,27 +64,27 @@ const SingleProductShow = () => {
     }, [SavedProducts, id])
 
     const SavedProduct = () => {
+        try {
 
-        if (CurrentUser?.id) {
 
-            if (!save) {
-                Axios.post(`/updateSave`, { savedProduct: product, type: true }).then(e => console.log(e)).catch(e => {
-                    console.log(e);
-                })
-                setSave(true)
+            if (CurrentUser?.id) {
+
+                if (!save) {
+                    Axios.post(`/updateSave`, { savedProduct: product, type: true })
+                    setSave(true)
+
+                }
+                else {
+                    Axios.post(`/updateSave`, { savedProduct: product, type: false })
+                    setSave(false)
+                }
 
             }
             else {
-                Axios.post(`/updateSave`, { savedProduct: product, type: false }).then(e => console.log(e)).catch(e => {
-                    console.log(e);
-                })
-                setSave(false)
+                Navgite("/login")
+
             }
-
-        }
-        else {
-            Navgite("/login")
-
+        } catch (error) {
         }
     }
 
@@ -98,7 +100,7 @@ const SingleProductShow = () => {
                             <div className='row g-2 justify-content-start mt-2'>
                                 <SkeletonShow height={"100px"} length={1} className={"col-4"} />
                                 <SkeletonShow height={"100px"} length={1} className={"col-4"} />
-                                <SkeletonShow height={"100px"} length={1} className={"col-4"} />
+                                 <SkeletonShow height={"100px"} length={1} className={"col-4"} />
 
 
                             </div>

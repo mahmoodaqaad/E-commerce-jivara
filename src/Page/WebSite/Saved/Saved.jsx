@@ -34,8 +34,7 @@ const Saved = () => {
                 }
             })
         })
-        console.log(newData);
-        console.log(products);
+   
         setSaved(newData)
 
         if (saved.length === 0) {

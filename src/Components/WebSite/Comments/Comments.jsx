@@ -42,7 +42,7 @@ const Comments = ({ id, darkMode }) => {
             }
 
         ).catch(e => {
-            console.log(e);
+            // console.log(e);
         })
 
             .finally(e => { setLoading(false) })
@@ -65,7 +65,7 @@ const Comments = ({ id, darkMode }) => {
 
             }
             catch (e) {
-                console.log(e);
+                // console.log(e);
 
             }
         } else {
@@ -79,13 +79,12 @@ const Comments = ({ id, darkMode }) => {
         try {
 
             const res = await axios.post(`${BaseURL}/product/delete-comment/${id}`, { comment })
-            console.log(res);
             if (res.status === 200) {
                 setCommnets(prev => prev.filter(item => item.id !== comment.id))
 
             }
         } catch (e) {
-            console.log(e);
+            // console.log(e);
 
         }
 
@@ -98,7 +97,6 @@ const Comments = ({ id, darkMode }) => {
             Axios.post(`/product/add-rate/${id}`, { star: rating, user: CurrentUser?.id }).then(res => {
 
 
-                console.log(res);
 
                 Swal.fire({
                     title: "Thank You For Rating",
@@ -115,7 +113,7 @@ const Comments = ({ id, darkMode }) => {
 
 
             }).catch(e => {
-                console.log(e);
+                // console.log(e);
             })
 
         } else {

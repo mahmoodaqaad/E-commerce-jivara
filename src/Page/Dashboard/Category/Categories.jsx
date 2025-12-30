@@ -47,15 +47,15 @@ const Categories = () => {
     const handleCategorytDelete = async (id) => {
 
         try {
-            Axios.delete(`${ACategory}/delete/${id}`).then(res => {
+             Axios.delete(`${ACategory}/delete/${id}`)
 
-                console.log(res);
-                setCategories(prev => prev.filter(item => item.id !== id))
-            }).catch(e => console.log(e)
-            )
+            setCategories(prev => prev.filter(item => item.id !== id))
+
+
+
 
         } catch (e) {
-            console.log(e);
+            // console.log(e);
 
         }
 

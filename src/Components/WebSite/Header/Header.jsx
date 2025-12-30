@@ -36,7 +36,10 @@ const Header = () => {
         axios.get(`${BaseURL}/categories?filter=created&order=DESC`).then(res => {
             setCategories(res.data.data);
 
-        }).catch(e => console.log(e)
+        }).catch(e => {
+            
+            // console.log(e)
+        }
         ).finally(() => {
             setLoading(false)
 
@@ -252,13 +255,11 @@ export const Prod = ({ item }) => {
     function Deleteitem(id) {
 
         if (+productexist !== -1) {
-            console.log(yourCart[productexist]);
-            console.log(id);
             const newLocal = yourCart.filter(product => product.id !== id)
             localStorage.setItem(`yourCart`, JSON.stringify(newLocal))
             setIsChangeInCart(prev => !prev)
         }
-    }
+    } 
 
 
 

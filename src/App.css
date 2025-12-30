@@ -169,9 +169,11 @@ input {
   background: var(--sidebarcolorHover);
 
 }
+
 .price {
   color: #43b2bb;
 }
+
 .cards {
   background-color: var(--gb-card);
 
@@ -213,7 +215,8 @@ input {
 
   line-height: 0;
 }
-.img-product{
+
+.img-product {
 
 
   /* object-fit: cover; */
@@ -253,3 +256,6 @@ input {
   color: white;
 }
 
+.text-inh {
+  color: var(--color);
+}

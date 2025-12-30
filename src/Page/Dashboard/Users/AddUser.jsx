@@ -42,7 +42,6 @@ const AddUser = () => {
         try {
 
             const res = await Axios.post(`/${AUser}/add`, form)
-            console.log(res);
 
             if (res.data.status === 200) {
                 Navigate("/dashboard/users")
@@ -57,8 +56,8 @@ const AddUser = () => {
                 })
             }
         } catch (e) {
-            console.log(e);
-            setErr(e.response.data.message);
+            if (e?.response?.data?.message)
+                setErr(e.response.data.message);
 
         }
 

@@ -33,7 +33,7 @@ const Users = () => {
             setUsers(res.data.data)
 
         }).catch(e => {
-            console.log(e);
+            // console.log(e);
 
 
         }
@@ -52,13 +52,15 @@ const Users = () => {
 
         try {
 
-            Axios.delete(`${BaseURL}/${AUser}/delete/${id}`).catch(e => console.log(e)
+            Axios.delete(`${BaseURL}/${AUser}/delete/${id}`).catch(e => {
+                // console.log(e)
+            }
             )
             setUsers(prev => {
                 return prev.filter(item => item.id !== id)
             })
         } catch (e) {
-            console.log(e)
+            // console.log(e)
         }
 
     }

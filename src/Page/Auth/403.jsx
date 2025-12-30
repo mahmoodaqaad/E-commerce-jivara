@@ -1,7 +1,6 @@
 import { NavLink } from 'react-router-dom'
 import './403.css'
 const Err403 = ({ role }) => {
-  console.log(role);
 
   return (
     <div className='text-wrapper' style={{

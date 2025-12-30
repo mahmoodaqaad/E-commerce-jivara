@@ -20,7 +20,9 @@ const Searched = ({ serach, setSearch }) => {
                 setErr("")
             }
 
-        }).catch(e => console.log(e)
+        }).catch(e => {
+            // console.log(e)
+        }
         )
 
     },[reuslt.length, serach])
@@ -29,7 +31,7 @@ const Searched = ({ serach, setSearch }) => {
         <div className='overflow-y-auto'>
             <div className='' style={{ maxHeight: "100vh" }}>
                 {reuslt.map(res => (
-                    <Link to={"/product/" + res.id} onClick={e => setSearch("")} className='w-100 searchReuslt '>
+                    <Link to={"/product/" + res.id} onClick={e => setSearch("")} className='w-100 searchReuslt ' >
                         <div className='d-flex justify-content-between'>
 
                             <h5 className='fs-6 '>{res.title}</h5>

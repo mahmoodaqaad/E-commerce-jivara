@@ -18,7 +18,9 @@ const ShowProducts = () => {
 
 
         }
-        ).catch(e => console.log(e)
+        ).catch(e => {
+            // console.log(e)
+        }
         ).finally(() => {
 
             setLoading(false)
