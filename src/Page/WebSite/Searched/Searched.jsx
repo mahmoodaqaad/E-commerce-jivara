@@ -6,9 +6,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from '@fortawesome/free-solid-svg-icons'
 import './Searched.css'
 import { Link } from 'react-router-dom'
-const Searched = ({ serach, setSearch }) => {
+const Searched = ({ serach, setSearch, isMobile = false }) => {
     const [reuslt, setRuslt] = useState([])
-    const [err, setErr] = useState([])
+    const [err, setErr] = useState([])  
     useEffect(() => {
         Axios.get(`/searchProduct?search=${serach}`).then(res => {
             setRuslt(res.data.data);
@@ -25,7 +25,7 @@ const Searched = ({ serach, setSearch }) => {
         }
         )
 
-    },[reuslt.length, serach])
+    }, [reuslt.length, serach])
     return (
 
         <div className='overflow-y-auto'>

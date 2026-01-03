@@ -1,4 +1,4 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, { createContext, useCallback, useEffect, useState } from 'react'
 import Cookies from "universal-cookie";
 import { jwtDecode } from 'jwt-decode';
 import { Axios } from '../API/Axios';
@@ -10,7 +10,7 @@ export const MyContext = createContext()
 
 const MyState = ({ children }) => {
     const [windowsize, setWindowSize] = useState(window.innerWidth)
-    const [darkMode, SetDarkMode] = useState(true)
+    const [darkMode, SetDarkMode] = useState(false)
     const [isChangeInCart, setIsChangeInCart] = useState(false)
     const [IsOpenBar, setIsopenBar] = useState(windowsize > 991 ? true : false)
     const [CurrentUser, setCurrentUser] = useState([])
@@ -21,57 +21,10 @@ const MyState = ({ children }) => {
     const [serach, setSerarch] = useState("")
     const cookies = new Cookies();
 
-
-
-
-
     //* mode 
-    // eslint-disable-next-line no-lone-blocks
-    {
-
-        if (darkMode) {
-
-            document.documentElement.style.setProperty("--background", "#22232d")
-            document.documentElement.style.setProperty("--color", "#fff")
-            document.documentElement.style.setProperty("--backgroundtopbar", "#000")
-            document.documentElement.style.setProperty("--sidebarBackground", "#131435")
-            document.documentElement.style.setProperty("--sidebarcolorHover", "#222428")
-            document.documentElement.style.setProperty("--scroll-bar", "#3e3e3e")
-            document.documentElement.style.setProperty("--gb-card", "rgb(38, 48, 68)")
-            document.documentElement.style.setProperty("--bg-site", "rgb(38, 48, 68)")
-            document.documentElement.style.setProperty("--skeleton", " linear-gradient(90deg, var(--bg-site) 25%, #54627d 50%, var(--bg-site) 75%)")
-        } else {
-            document.documentElement.style.setProperty("--background", "#fff")
-            document.documentElement.style.setProperty("--backgroundtopbar", "#fff")
-            document.documentElement.style.setProperty("--color", "#000")
-            document.documentElement.style.setProperty("--sidebarBackground", "#fefefe")
-            document.documentElement.style.setProperty("--sidebarcolorHover", "#eeeeee")
-            document.documentElement.style.setProperty("--scroll-bar", "#aaa")
-            document.documentElement.style.setProperty("--gb-card", "#fff")
-            document.documentElement.style.setProperty("--bg-site", "#e9ebef6b")
-
-            document.documentElement.style.setProperty("--skeleton", "linear-gradient(90deg, #e0e0e0 25%, #f5f5f5 50%, #e0e0e0 75%)")
-        }
-    }
-
-    // اكتشاف النمط الحالي للنظام
-    // useEffect(() => {
-    //     const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    //     SetDarkMode(mediaQuery.matches ? true : false);
-
-    //     // إضافة مستمع للتغييرات في إعدادات النظام
-    //     const handleChange = (e) => {
-    //         SetDarkMode(e.matches ? true : false);
-    //     };
-
-    //     mediaQuery.addEventListener('change', handleChange);
-
-    //     // تنظيف المستمع عند الخروج
-    //     return () => {
-    //         mediaQuery.removeEventListener('change', handleChange);
-    //     };
-    // }, []);
-
+    useEffect(() => {
+        document.documentElement.setAttribute('data-theme', darkMode ? 'dark' : 'light');
+    }, [darkMode]);
 
     // *reisase 
     useEffect(() => {
@@ -85,22 +38,13 @@ const MyState = ({ children }) => {
         }
     }, [])
 
-
-
-
-
     // *methods
 
-    const getAllSavedProducts = () => {
-
+    const getAllSavedProducts = useCallback(() => {
         Axios.get(`/savedPrdouct`).then(e => {
             setSavedProducts(e.data.data);
-
-
-
         }).catch(e => { })
-
-    }
+    }, [])
 
 
     function addForCart(id, coun, product) {
@@ -218,16 +162,11 @@ const MyState = ({ children }) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    function GetCurrentUser() {
-
+    const GetCurrentUser = useCallback(() => {
         Axios.get(`/${AUser}`).then(res => {
             setCurrentUser(res.data.user);
-
-        }).catch(e => { }
-        )
-
-
-    }
+        }).catch(e => { })
+    }, [])
     const Logout = () => {
         Swal.fire({
             title: "Are you sure?",
@@ -260,38 +199,23 @@ const MyState = ({ children }) => {
     }
 
     //* get  date
-    function GetAllCategories() {
-
+    const GetAllCategories = useCallback(() => {
         Axios.get(`/${ACategories}`).then(res => {
             setCategories(res.data.data);
+        }).catch(e => { })
+    }, [])
 
-        }).catch(e => { }
-        )
-
-
-    }
-
-    function GetAllUsers() {
-
+    const GetAllUsers = useCallback(() => {
         axios.get(`${BaseURL}/users`).then(res => {
             setUsers(res.data.data);
+        }).catch(e => { })
+    }, [])
 
-        }).catch(e => { }
-        )
-
-
-    }
-
-    function GetAllProducts() {
-
+    const GetAllProducts = useCallback(() => {
         Axios.get(`/${AProducts}`).then(res => {
             setProducts(res.data.data);
-
-        }).catch(e => { }
-        )
-
-
-    }
+        }).catch(e => { })
+    }, [])
 
 
     return (

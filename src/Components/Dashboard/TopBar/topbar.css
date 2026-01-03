@@ -1,5 +1,4 @@
 .topbar {
-
     background: var(--backgroundtopbar);
     position: sticky;
     top: 0;
@@ -12,10 +11,6 @@
     color: var(--color);
     border-radius: 50%;
     background: var(--background);
-    -webkit-border-radius: 50%;
-    -moz-border-radius: 50%;
-    -ms-border-radius: 50%;
-    -o-border-radius: 50%;
 }
 
 .bars {
@@ -25,11 +20,14 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    border-color: var(--background);
+    border: 1px solid transparent;
     color: var(--main-color);
-    border-radius: 6px;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    -ms-border-radius: 6px;
-    -o-border-radius: 6px;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.bars:hover {
+    background: rgba(56, 182, 255, 0.1);
+    border-color: rgba(56, 182, 255, 0.2);
+    transform: scale(1.05);
 }
