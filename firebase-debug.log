@@ -1,0 +1,21 @@
+[debug] [2026-01-03T13:05:26.665Z] ----------------------------------------------------------------------
+[debug] [2026-01-03T13:05:26.669Z] Command:       D:\برامج\node.exe C:\Users\mahmm\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2026-01-03T13:05:26.669Z] CLI Version:   15.1.0
+[debug] [2026-01-03T13:05:26.669Z] Platform:      win32
+[debug] [2026-01-03T13:05:26.669Z] Node Version:  v22.13.0
+[debug] [2026-01-03T13:05:26.670Z] Time:          Sat Jan 03 2026 15:05:26 GMT+0200 (Eastern European Standard Time)
+[debug] [2026-01-03T13:05:26.670Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2026-01-03T13:05:31.187Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2026-01-03T13:05:31.187Z] > authorizing via signed-in user (mahmood3ssas@gmail.com)
+[debug] [2026-01-03T13:05:31.188Z] [iam] checking project e-commerce-9c449 for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2026-01-03T13:05:31.189Z] Checked if tokens are valid: false, expires at: 1767444898384
+[debug] [2026-01-03T13:05:31.189Z] Checked if tokens are valid: false, expires at: 1767444898384
+[debug] [2026-01-03T13:05:31.190Z] > refreshing access token with scopes: []
+[debug] [2026-01-03T13:05:31.192Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2026-01-03T13:05:31.192Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-01-03T13:05:31.716Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2026-01-03T13:05:31.716Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2026-01-03T13:05:31.727Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/e-commerce-9c449:testIamPermissions [none]
+[debug] [2026-01-03T13:05:31.727Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/e-commerce-9c449:testIamPermissions x-goog-quota-user=projects/e-commerce-9c449
+[debug] [2026-01-03T13:05:31.728Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/e-commerce-9c449:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
