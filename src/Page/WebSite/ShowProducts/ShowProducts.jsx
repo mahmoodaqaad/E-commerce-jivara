@@ -34,42 +34,28 @@ const ShowProducts = () => {
 
     return (
         <div className='mt-5 py-5'>
-            <div className="row g-2">
+            <div className='mb-5 text-center'>
+                <h2 className='fw-bold' style={{ fontSize: '2.5rem' }}>Featured Products</h2>
+                <p className='text-muted'>Explore our best-selling items this week</p>
+            </div>
+            <div className="row g-4">
                 {
                     loading ?
-                        <>
-                            <div className="col-12 col-md-6 col-lg-3">
-                                <div className='shadow px-2 py-3 rounded '>
+                        [...Array(4)].map((_, i) => (
+                            <div key={i} className="col-12 col-md-6 col-lg-3">
+                                <div className='p-3 rounded bg-white shadow-sm border'>
                                     <ProductSkeleton />
                                 </div>
                             </div>
-                            <div className="col-12 col-md-6 col-lg-3">
-                                <div className='shadow px-2 py-3 rounded '>
-                                    <ProductSkeleton />
-                                </div>
-                            </div>
-                            <div className="col-12 col-md-6 col-lg-3">
-                                <div className='shadow px-2 py-3 rounded '>
-                                    <ProductSkeleton />
-                                </div>
-                            </div>
-
-
-                        </>
+                        ))
                         :
-
                         products?.map(product => (
-                            <div key={product.id} className="col-12 col-md-6 col-lg-3 text-inherit text-decoration-none">
-                                <div className='shadow px-2 py-3 rounded '>
-                                    <SingleProduct key={product.id} product={product} />
-                                </div>
+                            <div key={product.id} className="col-12 col-md-6 col-lg-3">
+                                <SingleProduct key={product.id} product={product} />
                             </div>
-
                         ))
                 }
-
             </div>
-
         </div >
     )
 }

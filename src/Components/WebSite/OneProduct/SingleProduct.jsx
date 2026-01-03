@@ -8,64 +8,50 @@ import Swal from 'sweetalert2'
 import Rating from '../Rating/Rating'
 import { Axios } from '../../../API/Axios'
 import { BaseURL } from '../../../API/API'
+import './SingleProduct.css'
+
 const SingleProduct = ({ product }) => {
     const [save, setSave] = useState(false)
     const { darkMode, addForCart, setIsChangeInCart, SavedProducts, getAllSavedProducts, CurrentUser, GetCurrentUser } = useContext(MyContext)
     const [IsaddtoYourCart, setIsaddtoYourCart] = useState(false)
     const image = product?.images ? JSON?.parse(product?.images) : "";
 
-    const Navgite = useNavigate();
+    const Navigate = useNavigate();
 
     useEffect(() => {
         getAllSavedProducts()
         GetCurrentUser()
-
-    }, [])
+    }, [getAllSavedProducts, GetCurrentUser])
 
     useEffect(() => {
-        setSave(false)
-        SavedProducts?.map(item => {
-            if (+item?.id === +product?.id) {
-                setSave(true)
-            }
-
-        })
+        const isSaved = SavedProducts?.some(item => +item?.id === +product?.id);
+        setSave(!!isSaved);
     }, [SavedProducts, product])
 
-
-
-
-    const SavedProduct = () => {
+    const SavedProduct = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         try {
-
             if (CurrentUser?.id) {
                 if (!save) {
                     Axios.post(`${BaseURL}/updateSave`, { savedProduct: product, type: true })
                     setSave(true)
-
                 }
                 else {
                     Axios.post(`${BaseURL}/updateSave`, { savedProduct: product, type: false })
                     setSave(false)
                 }
             } else {
-
-
-
-
-                Navgite("/login")
-
-
+                Navigate("/login")
             }
         } catch (e) {
-
         }
     }
 
-
-    function addToCart() {
+    function addToCart(e) {
+        e.preventDefault();
+        e.stopPropagation();
         if (CurrentUser.id) {
-
             if (!IsaddtoYourCart) {
                 addForCart(product.id, 1, product)
                 setIsChangeInCart(prev => !prev)
@@ -73,13 +59,13 @@ const SingleProduct = ({ product }) => {
             }
             else {
                 Swal.fire({
-                    title: "Are you sure?",
-                    text: "You want To Add Again ",
-                    icon: "warning",
+                    title: "Already in cart",
+                    text: "Would you like to add another one?",
+                    icon: "question",
                     showCancelButton: true,
                     confirmButtonColor: "#3085d6",
                     cancelButtonColor: "#d33",
-                    confirmButtonText: "Add",
+                    confirmButtonText: "Add More",
                     background: darkMode ? "#333" : "#fff",
                     color: !darkMode ? "#333" : "#fff",
                 }).then((result) => {
@@ -87,79 +73,52 @@ const SingleProduct = ({ product }) => {
                         addForCart(product.id, 1, product)
                         setIsChangeInCart(prev => !prev)
                         setIsaddtoYourCart(false)
-
-
                     }
                 })
-
-
             }
         }
         else {
-            Navgite("/login")
-
+            Navigate("/login")
         }
     }
 
-
-
     return (
-        <>
+        <div className="product-card">
             {
                 (CurrentUser?.role === "1990" || CurrentUser?.role === "1995") &&
-                < Link to={"/dashboard/products/" + product?.id} className='btn btn-success fs-5 mb-3'>
-
-                    <FontAwesomeIcon onClick={e => {
-
-                        SavedProduct()
-                    }}
-
-                        icon={faPen} />
-                </Link >
+                <Link to={"/dashboard/products/" + product?.id} className='btn-edit-product'>
+                    <FontAwesomeIcon icon={faPen} />
+                </Link>
             }
-            <Link className='w-100 text-center d-block' to={`/product/${product?.id}`}>
-                <img className='img-fluid rounded-1 img-product' src={image[0]} alt="" />
+
+            <div className="product-card-badges">
+                <div className={`badge-save ${save ? 'saved' : ''}`} onClick={SavedProduct}>
+                    <FontAwesomeIcon icon={save ? saveSolid : savereg} />
+                </div>
+            </div>
+
+            <Link className='product-card-img-wrapper' to={`/product/${product?.id}`}>
+                <img className='product-card-img' src={image[0]} alt={product.title} />
             </Link>
 
-            <div className='info mt-2 px-2'>
+            <div className='product-card-info'>
                 <div>
-                    <div className='d-flex justify-content-between align-items-center'>
-
-                        <h4>{product.title}</h4>
-                        <div className='d-flex gap-2 align-items-center '>
-
-                            <div >
-
-                                <FontAwesomeIcon onClick={e => {
-
-                                    SavedProduct()
-                                }}
-
-                                    icon={save ? saveSolid : savereg} />
-                            </div>
-
-                        </div>
-                    </div>
-                    <p className='price'>{product.price}$</p>
+                    <h4 className='product-card-title'>{product.title}</h4>
+                    <p className='product-card-price'>{product.price}$</p>
                 </div>
-                <div className='d-flex justify-content-between align-items-center '>
 
-                    <div className='d-flex gap-1'>
+                <div className='product-card-actions'>
+                    <div className='product-card-rating'>
                         {Rating(product).showGoldStars}
                         {Rating(product).showEmptyStars}
-
-
                     </div>
 
-
-                    <div className='pointer' onClick={addToCart}>
-                        <FontAwesomeIcon fontSize={"20px"} icon={faCartShopping} />
+                    <div className='btn-card-action' onClick={addToCart}>
+                        <FontAwesomeIcon icon={faCartShopping} />
                     </div>
-
                 </div>
-            </div >
-
-        </>
+            </div>
+        </div>
     )
 }
 

@@ -26,7 +26,7 @@ const SingelCategory = () => {
 
             const data = []
             products.map(item => {
-                if (+item.category_id == +id) {
+                if (+item.category_id === +id) {
 
                     data.push(item)
                 }
@@ -81,87 +81,96 @@ const SingelCategory = () => {
 
 
         return (
-            <div key={product.id} className='col-12 col-md-6 col-lg-4'>
-                <div className='border shadow p-3 '>
-                    <Link to={`/product/${product?.id}`}>
-                        <img className='img-fluid rounded-1 img-product' loading='lazy' src={image[0]} alt="" />
-                    </Link>
+            <>
 
-                    <div className='info mt-2 px-2'>
-                        <div>
-                            <div className='d-flex justify-content-between align-items-center'>
+                <div key={product.id} className='col-12 col-md-6 col-lg-4'>
+                    <div className='border shadow p-3 '>
+                        <Link to={`/product/${product?.id}`}>
+                            <img className='img-fluid rounded-1 img-product' loading='lazy' src={image[0]} alt="" />
+                        </Link>
 
-                                <h4>{product.title}</h4>
+                        <div className='info mt-2 px-2'>
+                            <div>
+                                <div className='d-flex justify-content-between align-items-center'>
 
-                                <div className='pointer'>
-                                    <FontAwesomeIcon
+                                    <h4>{product.title}</h4>
 
-                                        icon={saveSolid} />
+                                    <div className='pointer'>
+                                        <FontAwesomeIcon
+
+                                            icon={saveSolid} />
+                                    </div>
                                 </div>
+                                <p className='price'>{product.price}$</p>
                             </div>
-                            <p className='price'>{product.price}$</p>
-                        </div>
-                        <div className='d-flex justify-content-between align-items-center '>
+                            <div className='d-flex justify-content-between align-items-center '>
 
-                            <div className='d-flex gap-1'>
-                                {Rating(product).showGoldStars}
-                                {Rating(product).showEmptyStars}
+                                <div className='d-flex gap-1'>
+                                    {Rating(product).showGoldStars}
+                                    {Rating(product).showEmptyStars}
 
+
+                                </div>
+
+
+                                <div className='pointer' onClick={e => addToCart(product)}>
+                                    <FontAwesomeIcon fontSize={"20px"} icon={faCartShopping} />
+                                </div>
 
                             </div>
-
-
-                            <div className='pointer' onClick={e => addToCart(product)}>
-                                <FontAwesomeIcon fontSize={"20px"} icon={faCartShopping} />
-                            </div>
-
                         </div>
                     </div>
                 </div>
-            </div>
+            </>
+
         )
     }
     )
 
 
     return (
-        <div className='mt-4'>
-            <h1>
+        productsCate.length > 0 ?
+            < div className='mt-4' >
+                <h1>
 
-                {productsCate[0]?.category_name}
-            </h1>
-            <div className='mt-4 py-2'>
-                <div className="row g-2">
-                    {
-                        loading ?
-                            <>
-                                <div className="col-12 col-md-4">
-                                    <div className='shadow px-2 py-3 rounded '>
-                                        <ProductSkeleton />
+                    {productsCate[0]?.category_name}
+                </h1>
+                <div className='mt-4 py-2'>
+                    <div className="row g-2">
+                        {
+                            loading ?
+                                <>
+                                    <div className="col-12 col-md-4">
+                                        <div className='shadow px-2 py-3 rounded '>
+                                            <ProductSkeleton />
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-12 col-md-4">
-                                    <div className='shadow px-2 py-3 rounded '>
-                                        <ProductSkeleton />
+                                    <div className="col-12 col-md-4">
+                                        <div className='shadow px-2 py-3 rounded '>
+                                            <ProductSkeleton />
+                                        </div>
                                     </div>
-                                </div>
-                                <div className="col-12 col-md-4">
-                                    <div className='shadow px-2 py-3 rounded '>
-                                        <ProductSkeleton />
+                                    <div className="col-12 col-md-4">
+                                        <div className='shadow px-2 py-3 rounded '>
+                                            <ProductSkeleton />
+                                        </div>
                                     </div>
-                                </div>
 
 
-                            </>
-                            :
+                                </>
+                                :
 
-                            showSaved 
-                    }
+                                showSaved
+                        }
 
-                </div>
+                    </div>
 
+                </div >
             </div >
-        </div>
+            :
+            <div className='mt-4 vh-site d-flex justify-content-center align-items-center' style={{ height: "calc(100vh - 140px)" }}>
+                <h2 className='text-danger text-center mt-5 fs-1'>No Products in this Category yet</h2>
+            </div>
     )
 }
 

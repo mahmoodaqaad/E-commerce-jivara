@@ -12,7 +12,7 @@ import { Button, Modal } from 'react-bootstrap'
 import Searched from '../../../Page/WebSite/Searched/Searched'
 const Header = () => {
 
-    const { SetDarkMode, darkMode,  CurrentUser, GetCurrentUser, isChangeInCart, products, GetAllProducts } = useContext(MyContext)
+    const { SetDarkMode, darkMode, CurrentUser, GetCurrentUser, isChangeInCart, products, GetAllProducts } = useContext(MyContext)
     const [categories, setCategories] = useState([])
     const [loading, setLoading] = useState(false)
     const [showModle, setShowModle] = useState(false)
@@ -37,7 +37,7 @@ const Header = () => {
             setCategories(res.data.data);
 
         }).catch(e => {
-            
+
             // console.log(e)
         }
         ).finally(() => {
@@ -154,10 +154,14 @@ const Header = () => {
 
 
                     <div className="col-3 flex-grow-1  d-flex align-items-center justify-content-end gap-2">
-                        <div className='me-2 iconheader rounded-circle  pointer bg-success text-white p-2'
+                        <div className='me-2 iconheader rounded-circle  pointer bg-success text-white p-2 position-relative'
                             onClick={e => setShowModle(true)}
                         >
                             <FontAwesomeIcon fontSize={"17px"} className='' icon={faCartShopping} />
+                            {
+                                productLocal.length > 0 &&
+                                <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>{productLocal.length}</span>
+                            }
                         </div>
                         <div className={`rounded-circle pointer iconheader ${darkMode ? "shadow-dark" : "shadow"}`} onClick={() => SetDarkMode(prev => !prev)}>
                             <FontAwesomeIcon className="" fontSize={"17px"} icon={darkMode ? faSun : faMoon} color={darkMode ? "white" : "black"} />
@@ -259,7 +263,7 @@ export const Prod = ({ item }) => {
             localStorage.setItem(`yourCart`, JSON.stringify(newLocal))
             setIsChangeInCart(prev => !prev)
         }
-    } 
+    }
 
 
 

@@ -12,10 +12,9 @@ import { Axios } from '../../../API/Axios'
 import { SkeletonShow } from '../../../Components/ShowSkeleton/ShowSkeleton'
 import Rating from '../../../Components/WebSite/Rating/Rating'
 import BtnPlusMinus from '../../../Components/BtnPlusMinus/BtnPlusMinus'
+import './SingleProductShow.css'
 
 const SingleProductShow = () => {
-
-
 
     const [product, setProduct] = useState({})
     const [Productimage, setProductimage] = useState([])
@@ -25,15 +24,12 @@ const SingleProductShow = () => {
     const { darkMode, addForCart, setIsChangeInCart, SavedProducts, getAllSavedProducts, CurrentUser, GetCurrentUser } = useContext(MyContext)
     const [save, setSave] = useState(false)
 
-
-    const Navgite = useNavigate();
-
+    const Navigate = useNavigate();
 
     useEffect(() => {
         getAllSavedProducts()
         GetCurrentUser()
-    }, [])
-
+    }, [getAllSavedProducts, GetCurrentUser])
 
     useEffect(() => {
         setLoading(true)
@@ -49,150 +45,147 @@ const SingleProductShow = () => {
             .finally(_ => setLoading(false))
     }, [id])
 
-
-
-
     useEffect(() => {
-
-        SavedProducts?.map(item => {
-
-
-            if (+item.id === +id) {
-                setSave(true)
-            }
-        })
+        const isSaved = SavedProducts?.some(item => +item.id === +id);
+        setSave(!!isSaved);
     }, [SavedProducts, id])
 
     const SavedProduct = () => {
         try {
-
-
             if (CurrentUser?.id) {
-
                 if (!save) {
                     Axios.post(`/updateSave`, { savedProduct: product, type: true })
                     setSave(true)
-
                 }
                 else {
                     Axios.post(`/updateSave`, { savedProduct: product, type: false })
                     setSave(false)
                 }
-
             }
             else {
-                Navgite("/login")
-
+                Navigate("/login")
             }
         } catch (error) {
         }
     }
 
-
     return (
-        <Container className='mt-5'>
-            <div className='row g-4'>
-                <div className="col-lg-4 col-md-6 col-12">
-                    {loading ?
-                        <>
-
-                            <SkeletonShow height={"312px"} width={""} length={1} />
-                            <div className='row g-2 justify-content-start mt-2'>
-                                <SkeletonShow height={"100px"} length={1} className={"col-4"} />
-                                <SkeletonShow height={"100px"} length={1} className={"col-4"} />
-                                 <SkeletonShow height={"100px"} length={1} className={"col-4"} />
-
-
-                            </div>
-
-
-                        </>
-
-                        :
-                        <ImageGallery items={Productimage} thumbnailClass="overflow-scroll" />
-                    }
+        <Container className='product-container'>
+            <div className='row'>
+                <div className="col-lg-5 col-12">
+                    <div className="product-gallery-card">
+                        {loading ?
+                            <>
+                                <SkeletonShow height={"400px"} width={""} length={1} />
+                                <div className='row g-2 justify-content-start mt-2'>
+                                    <SkeletonShow height={"80px"} length={1} className={"col-3"} />
+                                    <SkeletonShow height={"80px"} length={1} className={"col-3"} />
+                                    <SkeletonShow height={"80px"} length={1} className={"col-3"} />
+                                </div>
+                            </>
+                            :
+                            <ImageGallery
+                                items={Productimage}
+                                showFullscreenButton={false}
+                                showPlayButton={false}
+                                showNav={false}
+                                thumbnailPosition="bottom"
+                            />
+                        }
+                    </div>
                 </div>
 
-
-                <div className='col-lg-8 col-md-6 col-12 pt-4'>
-                    {loading ?
-                        <>
-
-                            <SkeletonShow height={"36px"} width={"250px"} length={1} className={"h1"} />
-                            <SkeletonShow height={"24px"} width={"450px"} length={1} className={"p"} />
-                            <SkeletonShow height={"23px"} width={"400px"} length={1} className={"h5"} />
-                            <SkeletonShow height={"47px"} width={""} length={1} className={"mb-2"} />
-
-                        </> :
-                        <>
-
-                            <div className='d-flex  justify-content-between '>
-                                <h1 className='mb-3'>{product.title}</h1>
-
-                                <div className='pointer'>
-                                    <FontAwesomeIcon onClick={e => {
-
-                                        SavedProduct(product)
-                                    }}
-
-                                        icon={save ? saveSolid : savereg} />
-                                </div>
-                            </div>
-
-                            <h5 className='mb-3'>{product.discrption}</h5>
-
-
-
-
-                            <div className='d-flex align-items-center justify-content-between mt-4'>
-                                <div>
-                                    <div className='d-flex align-items-center gap-3'>
-                                        <h5 className='m-0 price'>{product.price}$</h5>
-                                        {product?.discount &&
-                                            <h6 className='m-0' style={{ color: "gray", textDecoration: "line-through" }}>{+product.price + +product.discount}$</h6>
-                                        }
+                <div className='col-lg-7 col-12'>
+                    <div className="product-info-card">
+                        {loading ?
+                            <>
+                                <SkeletonShow height={"48px"} width={"100%"} length={1} className={"mb-3"} />
+                                <SkeletonShow height={"24px"} width={"80%"} length={3} className={"mb-4"} />
+                                <SkeletonShow height={"60px"} width={"100%"} length={1} className={"mb-4"} />
+                                <SkeletonShow height={"50px"} width={"100%"} length={1} />
+                            </> :
+                            <>
+                                <div className='d-flex justify-content-between align-items-start'>
+                                    <div className="mb-4">
+                                        <span className="premium-badge">New Arrival</span>
+                                        <h1 className='product-title'>{product.title}</h1>
+                                        <div className='rating-section'>
+                                            {Rating(product).showGoldStars}
+                                            {Rating(product).showEmptyStars}
+                                            <span className='ms-2 text-muted fw-bold'>(4.5/5)</span>
+                                        </div>
+                                    </div>
+                                    <div
+                                        className={`btn-save ${save ? 'saved' : ''} pointer`}
+                                        onClick={() => SavedProduct(product)}
+                                    >
+                                        <FontAwesomeIcon icon={save ? saveSolid : savereg} />
                                     </div>
                                 </div>
 
-                            </div>
+                                <p className='product-description'>{product.discrption}</p>
 
-                            <div className='d-flex flex-wrap justify-content-between align-items-center mt-4'>
-
-                                <div className='d-flex gap-1 col-12 col-md-6'>
-                                    {Rating(product).showGoldStars}
-                                    {Rating(product).showEmptyStars}
-
-
-                                </div>
-
-                                <div className='d-flex align-items-center  gap-3 col-12 col-md-6 mt-4 mt-md-0 justify-content-between justify-content-md-end'>
-
-                                    <BtnPlusMinus count={count} setCount={setCount} />
-
-
-                                    <div className='pointer' onClick={e => {
-                                        if (CurrentUser?.id) {
-                                            addForCart(id, count, product)
-                                            setIsChangeInCart(prev => !prev)
-                                        } else {
-                                            Navgite("/login")
-
-                                        }
-
-                                    }
-                                    }><FontAwesomeIcon fontSize={"30px"} icon={faCartShopping} />
+                                <div className='product-price-section'>
+                                    <div className="d-flex align-items-center gap-4">
+                                        <span className='current-price'>{product.price}$</span>
+                                        {product?.discount && (
+                                            <div className="d-flex align-items-center gap-3">
+                                                <span className='old-price'>{+product.price + +product.discount}$</span>
+                                                <span className='discount-badge'>-{Math.round((product.discount / (+product.price + +product.discount)) * 100)}%</span>
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
 
-                            </div>
-                        </>
+                                <div className='action-buttons-wrap'>
+                                    <div className='d-flex flex-wrap align-items-end gap-4'>
+                                        <div className="quantity-selector">
+                                            <span className='d-block mb-3 fw-bold small text-uppercase text-muted' style={{ letterSpacing: '1px' }}>Quantity</span>
+                                            <BtnPlusMinus count={count} setCount={setCount} />
+                                        </div>
 
+                                        <div className="flex-grow-1">
+                                            <button
+                                                className='btn-add-cart w-100'
+                                                onClick={() => {
+                                                    if (CurrentUser?.id) {
+                                                        addForCart(id, count, product)
+                                                        setIsChangeInCart(prev => !prev)
+                                                    } else {
+                                                        Navigate("/login")
+                                                    }
+                                                }}
+                                            >
+                                                <FontAwesomeIcon icon={faCartShopping} />
+                                                Add to Cart
+                                            </button>
+                                        </div>
+                                    </div>
 
-                    }
-
+                                    <button
+                                        className='btn-buy-now'
+                                        onClick={() => {
+                                            if (CurrentUser?.id) {
+                                                // Same logic as add for now as placeholder for buy now
+                                                addForCart(id, count, product)
+                                                setIsChangeInCart(prev => !prev)
+                                            } else {
+                                                Navigate("/login")
+                                            }
+                                        }}
+                                    >
+                                        Buy It Now
+                                    </button>
+                                </div>
+                            </>
+                        }
+                    </div>
                 </div>
 
-                <Comments darkMode={darkMode} id={id} />
+                <div className="col-12 mt-5">
+                    <hr className='my-5 opacity-10' />
+                    <Comments darkMode={darkMode} id={id} />
+                </div>
             </div>
         </Container >
     )
