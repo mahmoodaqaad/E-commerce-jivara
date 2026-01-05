@@ -5,80 +5,164 @@ import axios from 'axios'
 import { ARegister, BaseURL } from '../../API/API'
 import Cookies from 'universal-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faLock, faMailBulk, faUser } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faLock, faUser, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import './Auth.css'
 
 const Register = () => {
     const cookie = new Cookies()
     const [loading, setLoading] = useState(false)
-
     const [form, setForm] = useState({
         name: "",
         email: "",
-        password: ""
+        password: "",
+        confirmPassword: ""
     })
     const [err, setErr] = useState("")
-
     const Navigate = useNavigate()
+
     const handleOnchange = (e) => setForm({ ...form, [e.target.name]: e.target.value })
 
     const handleSubmit = async (e) => {
         e.preventDefault()
+        setErr("")
+
+        // Client-side validation
+        if (form.password !== form.confirmPassword) {
+            setErr("Passwords do not match!")
+            return
+        }
+
         setLoading(true)
         try {
-            const res = await axios.post(`${BaseURL}/${ARegister}`, form)
+            // Send only required data to backend
+            const { confirmPassword, ...registerData } = form
+            const res = await axios.post(`${BaseURL}/${ARegister}`, registerData)
 
             const token = res.data.token
             cookie.set("ecommerce_jivara", token);
             if (res?.data.status === 200) {
-
                 Navigate("/")
             }
-
-
         } catch (e) {
-            setErr(e?.response?.data?.message)
-
-
+            if (e?.response?.data?.message)
+                setErr(e?.response?.data?.message)
+            else
+                setErr("Registration failed. Please try again.")
         } finally {
             setLoading(false)
         }
     }
+
     return (
-        <div className='vh-100'>
+        <div className='auth-page'>
             <Header />
-            <div className='  d-flex justify-content-center align-items-center'>
-                <div className='form shadow p-4 text-center mt-5'>
-                    <div><h1 className='text-primary'>Welcom </h1></div>
-                    <form onSubmit={handleSubmit}>
-                        <div className='inputForm border'>
-                            <div className='inputIcon border-end p-1'>
-
-                                <FontAwesomeIcon fontSize={"20px"} icon={faUser} />
-                            </div>
-                            <input className='bg-transparent p-2 text-inh' type="name" required name='name' placeholder='Name...' value={form.name} onChange={handleOnchange} />
+            <div className='auth-container reveal-anim'>
+                <div className='auth-card'>
+                    <div className='auth-visual' style={{ backgroundImage: "linear-gradient(rgba(56, 182, 255, 0.8), rgba(14, 165, 233, 0.8)), url('https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=2070&auto=format&fit=crop')" }}>
+                        <h2>Join Us!</h2>
+                        <p>Create an account to start shopping, save your favorites, and get exclusive offers tailored just for you.</p>
+                        <div className="mt-4">
+                            <ul className="list-unstyled">
+                                <li className="mb-2"><small>✓ Early access to sales</small></li>
+                                <li className="mb-2"><small>✓ Personalized recommendations</small></li>
+                                <li><small>✓ Fast checkout experience</small></li>
+                            </ul>
                         </div>
-                        <div className='inputForm  border'>
+                    </div>
 
-                            <div className='inputIcon border-end p-1'>
-
-                                <FontAwesomeIcon fontSize={"20px"} icon={faMailBulk} />
-                            </div>
-                            <input className='bg-transparent p-2 text-inh' type="email" required name='email' placeholder='Email...' value={form.email} onChange={handleOnchange} />
+                    <div className='auth-form-section'>
+                        <div className='auth-header'>
+                            <h1>Create Account</h1>
+                            <p>Fill in the details to get started</p>
                         </div>
-                        <div className='inputForm border '>
-                            <div className='inputIcon border-end p-1'>
 
-                                <FontAwesomeIcon fontSize={"20px"} icon={faLock} />
+                        {err && <div className='error-message'>{err}</div>}
+
+                        <form onSubmit={handleSubmit}>
+                            <div className='form-group'>
+                                <label>Full Name</label>
+                                <div className='auth-input-wrapper'>
+                                    <FontAwesomeIcon icon={faUser} className='icon' />
+                                    <input
+                                        className='auth-input'
+                                        type="text"
+                                        required
+                                        name='name'
+                                        placeholder='John Doe'
+                                        value={form.name}
+                                        onChange={handleOnchange}
+                                    />
+                                </div>
                             </div>
-                            <input className='bg-transparent p-2 text-inh' type="password" required minLength={6} name='password' placeholder='Password...' value={form.password} onChange={handleOnchange} />
+
+                            <div className='form-group'>
+                                <label>Email Address</label>
+                                <div className='auth-input-wrapper'>
+                                    <FontAwesomeIcon icon={faEnvelope} className='icon' />
+                                    <input
+                                        className='auth-input'
+                                        type="email"
+                                        required
+                                        name='email'
+                                        placeholder='name@example.com'
+                                        value={form.email}
+                                        onChange={handleOnchange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className='form-group'>
+                                <label>Password</label>
+                                <div className='auth-input-wrapper'>
+                                    <FontAwesomeIcon icon={faLock} className='icon' />
+                                    <input
+                                        className='auth-input'
+                                        type="password"
+                                        required
+                                        minLength={6}
+                                        name='password'
+                                        placeholder='••••••••'
+                                        value={form.password}
+                                        onChange={handleOnchange}
+                                    />
+                                </div>
+                            </div>
+
+                            <div className='form-group'>
+                                <label>Confirm Password</label>
+                                <div className='auth-input-wrapper'>
+                                    <FontAwesomeIcon icon={faLock} className='icon' />
+                                    <input
+                                        className='auth-input'
+                                        type="password"
+                                        required
+                                        minLength={6}
+                                        name='confirmPassword'
+                                        placeholder='••••••••'
+                                        value={form.confirmPassword}
+                                        onChange={handleOnchange}
+                                    />
+                                </div>
+                            </div>
+
+                            <button type="submit" className='auth-btn' disabled={loading}>
+                                {loading ? (
+                                    <span>Creating Account...</span>
+                                ) : (
+                                    <>
+                                        Sign Up
+                                        <FontAwesomeIcon icon={faArrowRight} className="ms-2" />
+                                    </>
+                                )}
+                            </button>
+                        </form>
+
+                        <div className='auth-footer'>
+                            Already have an account? <Link to="/login">Login</Link>
                         </div>
-                        <button type="submit" className='btn btn-success fs-4 px-4 mt-4' disabled={loading}>{loading ? "Registering..." : "Register"}</button>
-                        {err && <p className='text-start mt-4 text-danger'>{err}</p>}
-                        <p className='text-start mt-4'>Do You have Acount <Link to={"/login"}>Login</Link></p>
-                    </form>
+                    </div>
                 </div>
             </div>
-
         </div>
     )
 }
