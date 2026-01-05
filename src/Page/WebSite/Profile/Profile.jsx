@@ -50,10 +50,9 @@ const Profile = () => {
         e.preventDefault()
         setLoading(true)
         try {
-            const res = await Axios.patch(`/${AUser}/update/${CurrentUser.id}`, {
+            const res = await Axios.put(`/${AUser}/myUpdateUser/${CurrentUser.id}`, {
                 name: infoForm.name,
                 email: infoForm.email,
-                role: CurrentUser.role
             })
             if (res.status === 200) {
                 GetCurrentUser()
@@ -66,10 +65,11 @@ const Profile = () => {
                     color: darkMode ? "#fff" : "#1e293b",
                 })
             }
-        } catch (e) {
+        } catch (error) {
+            const errorMsg = error.response?.data?.message || "Could not update profile. Please try again.";
             Swal.fire({
                 title: "Error",
-                text: "Could not update profile. Please try again.",
+                text: errorMsg,
                 icon: "error",
                 confirmButtonColor: "var(--main-color)",
                 background: darkMode ? "#1e293b" : "#fff",
