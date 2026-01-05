@@ -15,6 +15,7 @@ const SideBar = () => {
     }, [])
 
     const iconColors = {
+        website: DarkMode ? "#6ac5fa" : "#38b6ff", // أحمر داكن
         home: DarkMode ? "#4CAF50" : "#388E3C", // أخضر
         order: DarkMode ? "#2196F3" : "#1976D2", // أزرق
         form: DarkMode ? "#FF9800" : "#F57C00", // برتقالي
@@ -25,7 +26,6 @@ const SideBar = () => {
         profile: DarkMode ? "#8BC34A" : "#7CB342", // أخضر فاتح
         history: DarkMode ? "#E91E63" : "#D81B60", // وردي
         reports: DarkMode ? "#F44336" : "#D32F2F", // أحمر داكن
-        website: DarkMode ? "#6ac5fa" : "#38b6ff", // أحمر داكن
     };
 
     return (

@@ -1,13 +1,11 @@
 import { useContext, useEffect, useState } from "react";
 import { Axios } from "../../../API/Axios";
-import { faCartShopping, faPen, faShoppingCart, faStar, faBookmark as saveSolid } from '@fortawesome/free-solid-svg-icons'
-
-import { faBookmark, faBookmark as savereg } from '@fortawesome/free-regular-svg-icons'
+import { faCartShopping, faStar, faBookmark as saveSolid } from '@fortawesome/free-solid-svg-icons'
+import { faBookmark as savereg } from '@fortawesome/free-regular-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import Rating from "../../../Components/WebSite/Rating/Rating";
 import { Link, useNavigate } from "react-router-dom";
 import { MyContext } from "../../../Context/MyState";
-import Swal from "sweetalert2";
 import { RatedSkeleto } from "../../../Components/ShowSkeleton/ShowSkeleton";
 const TopRated = () => {
 
@@ -32,42 +30,39 @@ const TopRated = () => {
 
 
     return (
-        <div className="border shadow p-2 rounded-3 ">
-            <div className="fst-italic fw-bold text-center">
-                <h2 className="text-warning d-flex align-items-center gap-2 justify-content-center"> <FontAwesomeIcon icon={faStar} fontSize={"20px"} /> Top Rated <FontAwesomeIcon icon={faStar} fontSize={"20px"} /></h2>
-
+        <div className="premium-card p-4 glass-effect reveal-anim">
+            <div className="text-center mb-4">
+                <h3 className="fw-900 gradient-text d-flex align-items-center gap-2 justify-content-center m-0">
+                    <FontAwesomeIcon icon={faStar} fontSize="18px" />
+                    TOP RATED
+                    <FontAwesomeIcon icon={faStar} fontSize="18px" />
+                </h3>
+                <p className="text-muted-alt small fw-bold mb-0">COMMUNITY FAVORITES</p>
             </div>
 
-            <div>
-                {
-                    loading ?
-
-                        <>
-                            <RatedSkeleto />
-                            <RatedSkeleto />
-                            <RatedSkeleto />
-                            <RatedSkeleto />
-                            <RatedSkeleto />
-                        </>
-
-                        :
-
-
-                        topRated?.map((item, i) => (
-                            <RatedOneProuduct key={i} product={item} />
-                        ))}
+            <div className="d-flex flex-column gap-2">
+                {loading ?
+                    <>
+                        <RatedSkeleto />
+                        <RatedSkeleto />
+                        <RatedSkeleto />
+                    </>
+                    :
+                    topRated?.slice(0, 5).map((item, i) => (
+                        <RatedOneProuduct key={i} product={item} index={i} />
+                    ))
+                }
             </div>
-        </div >
+        </div>
     );
 };
 
 export default TopRated;
 
-const RatedOneProuduct = ({ product }) => {
+const RatedOneProuduct = ({ product, index }) => {
 
     const [save, setSave] = useState(false)
-    const { darkMode, addForCart, setIsChangeInCart, SavedProducts, getAllSavedProducts, CurrentUser, GetCurrentUser } = useContext(MyContext)
-    const [IsaddtoYourCart, setIsaddtoYourCart] = useState(false)
+    const { addForCart, setIsChangeInCart, SavedProducts, getAllSavedProducts, CurrentUser, GetCurrentUser } = useContext(MyContext)
     const image = product?.images ? JSON?.parse(product?.images)[0] : "";
 
     const Navgite = useNavigate();
@@ -75,145 +70,94 @@ const RatedOneProuduct = ({ product }) => {
     useEffect(() => {
         getAllSavedProducts()
         GetCurrentUser()
-
-    }, [])
+    }, [getAllSavedProducts, GetCurrentUser])
 
     useEffect(() => {
-        setSave(false)
-        SavedProducts?.map(item => {
-            if (+item?.id === +product?.id) {
-                setSave(true)
-            }
-
-        })
+        const isSaved = SavedProducts?.some(item => +item.id === +product?.id);
+        setSave(!!isSaved);
     }, [SavedProducts, product])
 
 
-    const SavedProduct = () => {
-
+    const SavedProduct = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
         try {
             if (CurrentUser?.id) {
                 if (!save) {
                     Axios.post(`/updateSave`, { savedProduct: product, type: true })
                     setSave(true)
-
                 }
                 else {
                     Axios.post(`/updateSave`, { savedProduct: product, type: false })
                     setSave(false)
                 }
             } else {
-
-
-
-
                 Navgite("/login")
-
-
             }
-
         } catch (error) {
-
         }
     }
 
 
-    function addToCart() {
+    function handleAddToCart(e) {
+        e.preventDefault();
+        e.stopPropagation();
         if (CurrentUser.id) {
-
-            if (!IsaddtoYourCart) {
-                addForCart(product.id, 1, product)
-                setIsChangeInCart(prev => !prev)
-                setIsaddtoYourCart(true)
-            }
-            else {
-                Swal.fire({
-                    title: "Are you sure?",
-                    text: "You want To Add Again ",
-                    icon: "warning",
-                    showCancelButton: true,
-                    confirmButtonColor: "#3085d6",
-                    cancelButtonColor: "#d33",
-                    confirmButtonText: "Add",
-                    background: darkMode ? "#333" : "#fff",
-                    color: !darkMode ? "#333" : "#fff",
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        addForCart(product.id, 1, product)
-                        setIsChangeInCart(prev => !prev)
-                        setIsaddtoYourCart(false)
-
-
-                    }
-                })
-
-
-            }
+            addForCart(product.id, 1, product)
+            setIsChangeInCart(prev => !prev)
         }
         else {
             Navgite("/login")
-
         }
     }
     return (
-
-
-        <div className="">
-            <hr />
-
-            <div className="row g-2 align-items-center">
-                {
-                    (CurrentUser?.role === "1990" || CurrentUser?.role === "1995") &&
-                    <div className="text-center">
-
-                        < Link to={"/dashboard/products/" + product?.id} className='btn btn-success fs-5 '>
-
-                            <FontAwesomeIcon onClick={e => {
-
-                                SavedProduct()
-                            }}
-
-                                icon={faPen} />
-                        </Link >
+        <div className="reveal-anim" style={{ animationDelay: `${index * 0.15}s` }}>
+            <div className="p-2 rounded-4 hover-translate-none" style={{ transition: 'all 0.3s ease' }}>
+                <div className="row g-3 align-items-center">
+                    <div className="col-4">
+                        <Link to={`/product/${product?.id}`} className="d-block overflow-hidden rounded-3 shadow-sm">
+                            <img
+                                className="img-fluid img-hover-zoom"
+                                src={image}
+                                alt={product.title}
+                                style={{ height: '80px', width: '100%', objectFit: 'cover' }}
+                            />
+                        </Link>
                     </div>
-                }
-                <div className="col-4">
-                    <Link to={`/product/${product?.id}`}>
-                        <img className="img-fluid" src={image} alt="" />
-                    </Link>
-                </div>
-                <div className="col-8 p-3">
-                    <div className="d-flex justify-content-between">
-                        <div>
-                            <h3>{product.title}</h3>
-                            <p className="d-none d-md-block">{product.discrption}</p>
-                            <p className="price">{product.price}$</p>
+                    <div className="col-8">
+                        <div className="d-flex justify-content-between align-items-start">
+                            <div className="flex-grow-1">
+                                <h6 className="fw-bold mb-1 text-truncate" style={{ maxWidth: '140px' }}>{product.title}</h6>
+                                <div className="d-flex align-items-center gap-2 mb-1">
+                                    <div className="small d-flex gap-1 text-warning">
+                                        {Rating(product).showGoldStars}
+                                    </div>
+                                    <span className="price fs-6 fw-900">{product.price}$</span>
+                                </div>
+                            </div>
+                            <button
+                                className={`icon-circle glass-effect border-0 shadow-sm miniature ${save ? 'text-danger bg-white' : ''}`}
+                                onClick={SavedProduct}
+                                style={{ width: '32px', height: '32px' }}
+                            >
+                                <FontAwesomeIcon icon={save ? saveSolid : savereg} fontSize="0.85rem" />
+                            </button>
                         </div>
-                        <div className='pointer'>
-                            <FontAwesomeIcon onClick={e => {
-
-                                SavedProduct()
-                            }}
-
-                                icon={save ? saveSolid : savereg} />
-                        </div>
-                    </div>
-                    <div className="d-flex justify-content-between">
-
-                        <div>
-                            {Rating(product).showGoldStars}
-                            {Rating(product).showEmptyStars}
-                        </div>
-                        <div className='pointer' onClick={addToCart}>
-                            <FontAwesomeIcon fontSize={"20px"} icon={faCartShopping} />
+                        <div className="d-flex justify-content-between align-items-center mt-1">
+                            <span className="text-muted-alt x-small fw-bold">Stock: {product.stok}</span>
+                            <button
+                                className="btn-card-action icon-circle bg-main shadow-sm pointer text-white"
+                                onClick={handleAddToCart}
+                                style={{ width: '32px', height: '32px', background: 'var(--main-color)' }}
+                            >
+                                <FontAwesomeIcon icon={faCartShopping} fontSize="0.85rem" />
+                            </button>
                         </div>
                     </div>
-
                 </div>
             </div>
-
+            {index < 4 && <hr className="my-2 opacity-10" />}
         </div>
-
     )
 
 }

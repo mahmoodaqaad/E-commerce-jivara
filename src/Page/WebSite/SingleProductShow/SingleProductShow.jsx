@@ -70,124 +70,139 @@ const SingleProductShow = () => {
     }
 
     return (
-        <Container className='product-container'>
-            <div className='row'>
-                <div className="col-lg-5 col-12">
-                    <div className="product-gallery-card">
+        <div className='mt-5 container'>
+            <div className='row g-lg-5 g-4'>
+                {/* Product Media Column */}
+                <div className="col-lg-6 col-12 reveal-anim">
+                    <div className="premium-card p-3 glass-effect" style={{ borderRadius: '24px' }}>
                         {loading ?
-                            <>
-                                <SkeletonShow height={"400px"} width={""} length={1} />
-                                <div className='row g-2 justify-content-start mt-2'>
-                                    <SkeletonShow height={"80px"} length={1} className={"col-3"} />
-                                    <SkeletonShow height={"80px"} length={1} className={"col-3"} />
-                                    <SkeletonShow height={"80px"} length={1} className={"col-3"} />
+                            <div className="d-flex flex-column gap-3">
+                                <SkeletonShow height={"450px"} width={"100%"} length={1} />
+                                <div className='row g-2'>
+                                    <SkeletonShow height={"100px"} length={4} className={"col-3"} />
                                 </div>
-                            </>
+                            </div>
                             :
-                            <ImageGallery
-                                items={Productimage}
-                                showFullscreenButton={false}
-                                showPlayButton={false}
-                                showNav={false}
-                                thumbnailPosition="bottom"
-                            />
+                            <div className="modern-gallery">
+                                <ImageGallery items={Productimage} showPlayButton={false} showFullscreenButton={true} />
+                            </div>
                         }
                     </div>
                 </div>
 
-                <div className='col-lg-7 col-12'>
-                    <div className="product-info-card">
-                        {loading ?
-                            <>
-                                <SkeletonShow height={"48px"} width={"100%"} length={1} className={"mb-3"} />
-                                <SkeletonShow height={"24px"} width={"80%"} length={3} className={"mb-4"} />
-                                <SkeletonShow height={"60px"} width={"100%"} length={1} className={"mb-4"} />
-                                <SkeletonShow height={"50px"} width={"100%"} length={1} />
-                            </> :
-                            <>
-                                <div className='d-flex justify-content-between align-items-start'>
-                                    <div className="mb-4">
-                                        <span className="premium-badge">New Arrival</span>
-                                        <h1 className='product-title'>{product.title}</h1>
-                                        <div className='rating-section'>
-                                            {Rating(product).showGoldStars}
-                                            {Rating(product).showEmptyStars}
-                                            <span className='ms-2 text-muted fw-bold'>(4.5/5)</span>
+                {/* Product Details Column */}
+                <div className='col-lg-6 col-12 reveal-anim' style={{ animationDelay: '0.2s' }}>
+                    {loading ?
+                        <div className="d-flex flex-column gap-4">
+                            <SkeletonShow height={"50px"} width={"90%"} length={1} />
+                            <SkeletonShow height={"30px"} width={"40%"} length={1} />
+                            <SkeletonShow height={"150px"} width={"100%"} length={1} />
+                            <SkeletonShow height={"80px"} width={"300px"} length={1} />
+                        </div>
+                        :
+                        <div className="ps-lg-2">
+                            <div className='d-flex justify-content-between align-items-center mb-3'>
+                                <h1 className='display-5 fw-900 mb-0'>{product.title}</h1>
+                                <button
+                                    className={`icon-circle glass-effect border-0 shadow-sm ${save ? 'text-danger bg-white' : ''}`}
+                                    onClick={() => SavedProduct(product)}
+                                    style={{ width: '50px', height: '50px' }}
+                                >
+                                    <FontAwesomeIcon icon={save ? saveSolid : savereg} fontSize="1.2rem" />
+                                </button>
+                            </div>
+
+                            <div className='d-flex align-items-center gap-3 mb-4'>
+                                <div className='d-flex gap-1'>
+                                    {Rating(product).showGoldStars}
+                                    {Rating(product).showEmptyStars}
+                                </div>
+                                <span className='text-muted-alt fw-bold'>(4.8 Rating)</span>
+                                <span className='ms-auto badge bg-success bg-opacity-10 text-success p-2 px-3 fw-bold'>In Stock</span>
+                            </div>
+
+                            <div className='mb-5'>
+                                <p className='fs-5 text-muted-alt' style={{ lineHeight: '1.8' }}>{product.discrption}</p>
+                            </div>
+
+                            <div className='premium-card glass-effect mb-5 p-4 border-0 d-flex align-items-center gap-5'>
+                                <div>
+                                    <span className='d-block text-muted-alt small fw-bold text-uppercase mb-1'>Current Price</span>
+                                    <h2 className='display-6 fw-bold m-0 gradient-text'>{product.price}$</h2>
+                                </div>
+                                {product?.discount &&
+                                    <div>
+                                        <span className='d-block text-muted-alt small fw-bold text-uppercase mb-1'>Discount</span>
+                                        <div className="d-flex align-items-center gap-2">
+                                            <h4 className='m-0 text-muted text-decoration-line-through'>{+product.price + +product.discount}$</h4>
+                                            <span className="badge bg-danger">-{Math.round((product.discount / (+product.price + +product.discount)) * 100)}%</span>
                                         </div>
                                     </div>
-                                    <div
-                                        className={`btn-save ${save ? 'saved' : ''} pointer`}
-                                        onClick={() => SavedProduct(product)}
-                                    >
-                                        <FontAwesomeIcon icon={save ? saveSolid : savereg} />
-                                    </div>
+                                }
+                            </div>
+
+                            <div className='d-flex flex-wrap align-items-end gap-4'>
+                                <div className='quantity-selector bg-light bg-opacity-10 p-2 rounded-pill'>
+                                    <BtnPlusMinus count={count} setCount={setCount} />
                                 </div>
+                                <button
+                                    className='btn-premium btn-premium-primary fs-5 px-5 py-3 flex-grow-1'
+                                    onClick={() => {
+                                        if (CurrentUser?.id) {
+                                            addForCart(id, count, product)
+                                            setIsChangeInCart(prev => !prev)
+                                        } else {
+                                            Navigate("/login")
+                                        }
+                                    }}
+                                >
+                                    <FontAwesomeIcon icon={faCartShopping} />
+                                    Add to Collection
+                                </button>
+                            </div>
 
-                                <p className='product-description'>{product.discrption}</p>
-
-                                <div className='product-price-section'>
-                                    <div className="d-flex align-items-center gap-4">
-                                        <span className='current-price'>{product.price}$</span>
-                                        {product?.discount && (
-                                            <div className="d-flex align-items-center gap-3">
-                                                <span className='old-price'>{+product.price + +product.discount}$</span>
-                                                <span className='discount-badge'>-{Math.round((product.discount / (+product.price + +product.discount)) * 100)}%</span>
+                            <div className="mt-5 p-4 border-top border-light border-opacity-10 shadow-sm rounded-4">
+                                <div className="row g-4">
+                                    <div className="col-sm-6">
+                                        <div className="d-flex align-items-center gap-3">
+                                            <div className="icon-circle bg-main bg-opacity-10 text-main">
+                                                <i className="fa fa-truck"></i>
                                             </div>
-                                        )}
-                                    </div>
-                                </div>
-
-                                <div className='action-buttons-wrap'>
-                                    <div className='d-flex flex-wrap align-items-end gap-4'>
-                                        <div className="quantity-selector">
-                                            <span className='d-block mb-3 fw-bold small text-uppercase text-muted' style={{ letterSpacing: '1px' }}>Quantity</span>
-                                            <BtnPlusMinus count={count} setCount={setCount} />
-                                        </div>
-
-                                        <div className="flex-grow-1">
-                                            <button
-                                                className='btn-add-cart w-100'
-                                                onClick={() => {
-                                                    if (CurrentUser?.id) {
-                                                        addForCart(id, count, product)
-                                                        setIsChangeInCart(prev => !prev)
-                                                    } else {
-                                                        Navigate("/login")
-                                                    }
-                                                }}
-                                            >
-                                                <FontAwesomeIcon icon={faCartShopping} />
-                                                Add to Cart
-                                            </button>
+                                            <div>
+                                                <h6 className="mb-0 fw-bold">Express Delivery</h6>
+                                                <small className="text-muted-alt">Under 48 hours</small>
+                                            </div>
                                         </div>
                                     </div>
-
-                                    <button
-                                        className='btn-buy-now'
-                                        onClick={() => {
-                                            if (CurrentUser?.id) {
-                                                // Same logic as add for now as placeholder for buy now
-                                                addForCart(id, count, product)
-                                                setIsChangeInCart(prev => !prev)
-                                            } else {
-                                                Navigate("/login")
-                                            }
-                                        }}
-                                    >
-                                        Buy It Now
-                                    </button>
+                                    <div className="col-sm-6">
+                                        <div className="d-flex align-items-center gap-3">
+                                            <div className="icon-circle bg-success bg-opacity-10 text-success">
+                                                <i className="fa fa-shield"></i>
+                                            </div>
+                                            <div>
+                                                <h6 className="mb-0 fw-bold">Quality Assured</h6>
+                                                <small className="text-muted-alt">Free returns</small>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
-                            </>
-                        }
-                    </div>
+                            </div>
+                        </div>
+                    }
                 </div>
+            </div>
 
-                <div className="col-12 mt-5">
-                    <hr className='my-5 opacity-10' />
+            {/* Product Feedbacks */}
+            <div className="mt-5 pt-5 reveal-anim" style={{ animationDelay: '0.4s' }}>
+                <div className='d-flex align-items-center gap-3 mb-4 border-bottom pb-3'>
+                    <h3 className='fw-bold mb-0'>Customer Voices</h3>
+                    <span className="badge bg-site text-dark px-3 mt-1">Authentic Reviews</span>
+                </div>
+                <div className="premium-card p-4 glass-effect">
                     <Comments darkMode={darkMode} id={id} />
                 </div>
             </div>
-        </Container >
+        </div>
     )
 }
 

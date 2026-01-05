@@ -34,6 +34,7 @@ import { Route, Routes } from 'react-router-dom';
 import { lazy, Suspense } from 'react';
 import Loading from './Components/loading/Loading';
 import 'react-image-gallery/styles/css/image-gallery.css'
+import Search from './Page/search/search';
 const ERR404 = lazy(() => import("./Page/Dashboard/Page404/Page404"))
 const Home = lazy(() => import('./Page/WebSite/Home/Home'))
 const SingleProductShow = lazy(() => import('./Page/WebSite/SingleProductShow/SingleProductShow'))
@@ -62,6 +63,7 @@ const Reports = lazy(() => import('./Page/Dashboard/Reports/Reports'));
 const Saved = lazy(() => import('./Page/WebSite/Saved/Saved'));
 const SingelCategory = lazy(() => import('./Page/WebSite/SingelCategory/SingelCategory'));
 const CategoriesPage = lazy(() => import('./Page/WebSite/Categories/CategoriesPage'));
+const Checkout = lazy(() => import('./Page/WebSite/Checkout/Checkout'));
 
 
 
@@ -81,6 +83,8 @@ function App() {
             <Route path='/product/:id' element={<SingleProductShow />} />
             <Route path='/category/:id' element={<SingelCategory />} />
             <Route path='/category' element={<CategoriesPage />} />
+            <Route path='/checkout' element={<Checkout />} />
+            <Route path='/search' element={<Search />} />
 
 
             <Route element={<RequiredAuth Allowedrole={["1990", "1995", "2000"]} />}>

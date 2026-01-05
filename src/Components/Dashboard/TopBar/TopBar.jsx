@@ -4,37 +4,29 @@ import React, { useContext } from 'react'
 import { MyContext } from '../../../Context/MyState'
 import { Link } from 'react-router-dom'
 import './topbar.css'
-const TopBar = () => {
 
+const TopBar = () => {
     const { setIsopenBar, SetDarkMode, darkMode, Logout } = useContext(MyContext)
 
-
-
-
-
-
     return (
-        <div className=' p-4 shadow topbar rounded-3   rounded-start-3'>
-
-            <div className='d-flex align-items-center justify-content-between  icons'>
-                <div className={`bars ${darkMode ? "shadow-dark" : "shadow"} `} onClick={() => setIsopenBar((prev) => !prev)} >
-
-                    <FontAwesomeIcon fontSize={"20px"} icon={faBars} />
+        <div className='p-3 shadow-sm topbar rounded-4 mb-4 mt-2 mx-2'>
+            <div className='d-flex align-items-center justify-content-between icons'>
+                <div className="bars" onClick={() => setIsopenBar((prev) => !prev)}>
+                    <FontAwesomeIcon icon={faBars} fontSize="1.2rem" />
                 </div>
-                <div className='d-flex justify-content-center align-items-center gap-3'>
-                    <Link to={"/dashboard/profile"} className={`w-30-circal-black-white pointer icon ${darkMode ? "shadow-dark" : "shadow"}`} >
-                        <FontAwesomeIcon className="" fontSize={"17px"} icon={faUser} color={darkMode ? "white" : "black"} />
+
+                <div className='d-flex align-items-center gap-2'>
+                    <Link to="/dashboard/profile" className="header-action-btn shadow-none">
+                        <FontAwesomeIcon icon={faUser} style={{ fontSize: '1.1rem' }} />
                     </Link>
 
-                    <div className={`w-30-circal-black-white pointer icon ${darkMode ? "shadow-dark" : "shadow"}`} onClick={() => SetDarkMode(prev => !prev)}>
-                        <FontAwesomeIcon className="" fontSize={"17px"} icon={darkMode ? faSun : faMoon} color={darkMode ? "white" : "black"} />
-                    </div>
+                    <button className="header-action-btn shadow-none" onClick={() => SetDarkMode(prev => !prev)}>
+                        <FontAwesomeIcon icon={darkMode ? faSun : faMoon} style={{ fontSize: '1.1rem' }} />
+                    </button>
 
-                    <div className={`w-30-circal-black-white pointer icon ${darkMode ? "shadow-dark" : "shadow"}`} onClick={Logout}>
-                        <FontAwesomeIcon className="" fontSize={"17px"} icon={faArrowRightFromBracket} color={darkMode ? "white" : "black"} />
-                    </div>
-
-
+                    <button className="header-action-btn shadow-none text-danger-hover" onClick={Logout}>
+                        <FontAwesomeIcon icon={faArrowRightFromBracket} style={{ fontSize: '1.1rem' }} />
+                    </button>
                 </div>
             </div>
         </div>
