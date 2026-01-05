@@ -133,7 +133,7 @@ const Saved = () => {
         <div className='mt-4'>
             <h1>Saved</h1>
             <div className='row g-3'>
-                {saved.length > 0 ? showSaved : <h1 className='text-center mt-5 fa-5x text-danger fw-lighter' style={{height:"calc(100vh - 400px)"}}>{err}</h1>}
+                {saved.length > 0 ? showSaved : <h1 className='text-center mt-5 fa-5x text-danger fw-lighter' style={{minHeight:"calc(100vh - 400px)"}}>{err}</h1>}
             </div>
         </div>
     )

@@ -5,7 +5,7 @@ import axios from 'axios'
 import { ARegister, BaseURL } from '../../API/API'
 import Cookies from 'universal-cookie'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope, faLock, faUser, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faLock, faUser, faArrowRight, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import './Auth.css'
 
 const Register = () => {
@@ -17,6 +17,8 @@ const Register = () => {
         password: "",
         confirmPassword: ""
     })
+    const [showPassword, setShowPassword] = useState(false)
+    const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const [err, setErr] = useState("")
     const Navigate = useNavigate()
 
@@ -117,7 +119,7 @@ const Register = () => {
                                     <FontAwesomeIcon icon={faLock} className='icon' />
                                     <input
                                         className='auth-input'
-                                        type="password"
+                                        type={showPassword ? "text" : "password"}
                                         required
                                         minLength={6}
                                         name='password'
@@ -125,6 +127,9 @@ const Register = () => {
                                         value={form.password}
                                         onChange={handleOnchange}
                                     />
+                                    <div onClick={() => setShowPassword(!showPassword)} className='position-absolute end-0 top-50 translate-middle-y me-3 pointer text-muted'>
+                                        <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                                    </div>
                                 </div>
                             </div>
 
@@ -134,7 +139,7 @@ const Register = () => {
                                     <FontAwesomeIcon icon={faLock} className='icon' />
                                     <input
                                         className='auth-input'
-                                        type="password"
+                                        type={showConfirmPassword ? "text" : "password"}
                                         required
                                         minLength={6}
                                         name='confirmPassword'
@@ -142,6 +147,9 @@ const Register = () => {
                                         value={form.confirmPassword}
                                         onChange={handleOnchange}
                                     />
+                                    <div onClick={() => setShowConfirmPassword(!showConfirmPassword)} className='position-absolute end-0 top-50 translate-middle-y me-3 pointer text-muted'>
+                                        <FontAwesomeIcon icon={showConfirmPassword ? faEye : faEyeSlash} />
+                                    </div>
                                 </div>
                             </div>
 

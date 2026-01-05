@@ -42,19 +42,28 @@ const TableShow = (props) => {
     };
 
     function showImg(images) {
-        const newImage = JSON.parse(images)
-        return <div className='d-flex gap-2 flex-wrap'>{
-
-            newImage.map((img, key) => (
-                <div>
-                
-                
-                < img key={key} width={"40px"} loading='lazy' src={img} alt="" />
+        if (!images) return null;
+        try {
+            const newImage = JSON.parse(images)
+            return (
+                <div className='d-flex gap-2 flex-wrap'>
+                    {newImage.map((img, key) => (
+                        <div key={key} style={{ width: '40px', height: '40px', overflow: 'hidden', borderRadius: '8px', background: '#f8f9fa' }}>
+                            <img
+                                width="100%"
+                                height="100%"
+                                loading='lazy'
+                                src={img}
+                                alt=""
+                                style={{ objectFit: 'cover' }}
+                            />
+                        </div>
+                    ))}
                 </div>
-
-            ))
+            )
+        } catch (e) {
+            return null;
         }
-        </div>
     }
 
     useEffect(() => {
@@ -152,14 +161,6 @@ const TableShow = (props) => {
 
     }
 
-    // show header 
-
-    const headerShow = header.map((head) => (
-        <td key={head.key} className="p-3" style={styleTd}>
-            {head.name}
-        </td>
-    ));
-
 
     // show data 
     const dataShow = data?.map((data, key) => {
@@ -189,7 +190,9 @@ const TableShow = (props) => {
                                 head.key === 'images'
                                     ? showImg(data[head.key])
                                     : head.key === 'image' ?
-                                        <img src={data[head.key]} loading='lazy' width={"120px"} alt="" />
+                                        <div style={{ width: '80px', height: '80px', overflow: 'hidden', borderRadius: '12px', background: '#f8f9fa' }}>
+                                            <img src={data[head.key]} loading='lazy' style={{ width: '100%', height: '100%', objectFit: 'cover' }} alt="" />
+                                        </div>
 
                                         : head.key === 'category'
                                             ? data[head.key]?.name
@@ -203,9 +206,9 @@ const TableShow = (props) => {
                                                             ? `${data[head.key]} (YOU)`
                                                             : head.key === 'lastLogin' && !data[head.key]
                                                                 ? <span style={{ color: '#c83f3f' }}>Not Login Yet</span>
-                                                                : head.key === "discrption" ? (data[head.key]).slice(0,50)+" ..."
-                                                                : data[head.key]
-                            
+                                                                : head.key === "discrption" ? (data[head.key]).slice(0, 50) + " ..."
+                                                                    : data[head.key]
+
                             }
                         </td>
                     )
@@ -214,7 +217,7 @@ const TableShow = (props) => {
                 <td className="text-center" style={styleTd}>
                     <div className="d-flex flex-wrap gap-3  g-3  m-auto justify-content-center">
                         <div className="col-12 col-lg-5">
-                            <Link to={`${data.id}`} className="btn btn-info">
+                            <Link to={`${header[2].key === "email" ? "/dashboard/users/" + data.id : data.id}`} className="btn btn-info">
                                 <FontAwesomeIcon icon={faPen} />
                             </Link>
                         </div>
@@ -273,7 +276,8 @@ const TableShow = (props) => {
             <div className='overflow-auto '>
 
                 <Table
-                    className="table-show shadow overflow-x-auto"
+                    responsive
+                    className="table-show shadow mb-0"
                     striped
                     bordered
                     hover
@@ -281,37 +285,43 @@ const TableShow = (props) => {
                 >
                     <thead>
                         <tr>
-                            <td style={styleTd}>key</td>
-                            <td className='' style={{ width: "60px" }}>
-                                <div className='d-flex align-items-center gap-2 h-100'>
+                            <th className="p-3 text-nowrap" style={styleTd}>key</th>
+                            <th className='' style={{ width: "80px", background: styleTd.background }}>
+                                <div className='d-flex align-items-center gap-2 h-100 justify-content-center'>
                                     <input
                                         type="checkbox"
+                                        className="form-check-input mt-0"
                                         onChange={handleSelectAll}
                                     />
 
                                     <button disabled={selectedUsers?.length === 0}
                                         onClick={handleDeleteSelected}
-                                        className={`bg-danger text-white py-1 px-2 rounded ${selectedUsers?.length === 0 && "bg-danger-subtle"}`}
+                                        className={`btn btn-sm btn-danger d-flex align-items-center justify-content-center ${selectedUsers?.length === 0 && "opacity-50"}`}
+                                        style={{ width: '32px', height: '32px' }}
                                     >
                                         <FontAwesomeIcon icon={faTrash} />
                                     </button>
 
                                 </div>
-                            </td>
-                            {headerShow}
-                            <td className="p-md-3 text-center " style={styleTd}>
+                            </th>
+                            {header.map((head) => (
+                                <th key={head.key} className="p-3 text-nowrap" style={styleTd}>
+                                    {head.name}
+                                </th>
+                            ))}
+                            <th className="p-3 text-center text-nowrap" style={styleTd}>
                                 Action
-                            </td>
+                            </th>
                         </tr>
                     </thead>
                     <tbody>
 
                         {
-                            loading ? <tr><td style={styleTd} className='text-center ' colSpan={12}><h2>Loading ...</h2></td></tr>
+                            loading ? <tr><td style={styleTd} className='text-center py-5' colSpan={header.length + 3}><h2>Loading ...</h2></td></tr>
                                 : (data?.length > 0 ?
 
                                     dataShow :
-                                    <tr><td className='text-center ' style={styleTd} colSpan={12}><h2 >No Data</h2></td></tr>
+                                    <tr><td className='text-center py-5' style={styleTd} colSpan={header.length + 3}><h2 >No Data</h2></td></tr>
                                 )
                         }
 
@@ -321,7 +331,7 @@ const TableShow = (props) => {
             <div className=''>
                 <div className=''>
                     <div className='col-12 col-sm-2 '>
-                        <select  className='py-1' value={limit} onChange={(e) => { setLimit(e.target.value) }}>
+                        <select className='py-1' value={limit} onChange={(e) => { setLimit(e.target.value) }}>
 
                             <option value="3">3</option>
                             <option value="5">5</option>

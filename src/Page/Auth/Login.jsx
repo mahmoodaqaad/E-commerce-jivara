@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Header from '../../Components/WebSite/Header/Header'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faEnvelope, faLock, faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { faEnvelope, faLock, faArrowRight, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { Link, useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import { ALogin, BaseURL } from '../../API/API'
@@ -15,6 +15,7 @@ const Login = () => {
         password: ""
     })
     const [loading, setLoading] = useState(false)
+    const [showPassword, setShowPassword] = useState(false)
     const [err, setErr] = useState("")
     const Navigate = useNavigate()
 
@@ -91,7 +92,7 @@ const Login = () => {
                                 <div className='auth-input-wrapper'>
                                     <FontAwesomeIcon icon={faLock} className='icon' />
                                     <input
-                                        type="password"
+                                        type={showPassword ? "text" : "password"}
                                         required
                                         minLength={6}
                                         className='auth-input'
@@ -100,6 +101,9 @@ const Login = () => {
                                         value={form.password}
                                         onChange={handleOnchange}
                                     />
+                                    <div onClick={() => setShowPassword(!showPassword)} className='position-absolute end-0 top-50 translate-middle-y me-3 pointer text-muted'>
+                                        <FontAwesomeIcon icon={showPassword ? faEye : faEyeSlash} />
+                                    </div>
                                 </div>
                                 <Link to="#" className='forgot-password'>Forgot Password?</Link>
                             </div>

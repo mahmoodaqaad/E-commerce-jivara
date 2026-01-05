@@ -18,13 +18,13 @@ const TopChannel = ({ mode }) => {
 
 
     return (
-        <div className={` rounded px-4 overflow-auto bg-card ${!mode && "shodow"}`} >
+        <div className={` rounded px-4 bg-card ${!mode && "shodow"}`} >
             <h3 className='pt-3 '>Top Channel</h3>
-            <Table className='table-show mt-4 rounded' striped hover >
+            <Table responsive className='table-show mt-4 rounded mb-0' striped hover >
                 <thead>
                     <tr>
                         {header.map((head, key) => (
-                            <th key={key} className='py-3 ' style={{ color: "white", width: head.name === "Source" && "150px", background: "rgb(49 61 74) " }}>{head.name}</th>
+                            <th key={key} className='py-3 text-nowrap' style={{ color: "white", width: head.name === "Source" && "150px", background: "rgb(49 61 74) " }}>{head.name}</th>
                         ))}
                     </tr>
                 </thead>
@@ -34,17 +34,18 @@ const TopChannel = ({ mode }) => {
 
                     {CahnnelTable.map((item, key) => (
                         <tr key={key}>
-                            <td className='py-5' style={colorTR}>
+                            <td className='py-4' style={{ ...colorTR, minWidth: '180px' }}>
                                 <div className='d-flex gap-2 align-items-center'>
-
-                                    <img src={item.Source} className='img-rounded me-3' alt="" />
-                                    {item.brand}
+                                    <div style={{ width: '40px', height: '40px', flexShrink: 0 }}>
+                                        <img src={item.Source} className='img-fluid rounded' alt={item.brand} style={{ objectFit: 'contain', width: '100%', height: '100%' }} />
+                                    </div>
+                                    <span className="fw-bold">{item.brand}</span>
                                 </div>
                             </td >
-                            <td className='py-4' style={colorTR}>{item.Visitors}</td>
-                            <td className='py-4 text-success-alt' style={colorTR}>{item.Revenues}                  </td>
-                            <td className='py-4 ' style={colorTR}>{item.Sales}                    </td>
-                            <td className='py-4 text-filed-alt' style={colorTR}>{item.Conversion}                      </td>
+                            <td className='py-4 text-nowrap' style={colorTR}>{item.Visitors}</td>
+                            <td className='py-4 text-nowrap text-success-alt' style={colorTR}>{item.Revenues}</td>
+                            <td className='py-4 text-nowrap' style={colorTR}>{item.Sales}</td>
+                            <td className='py-4 text-nowrap text-filed-alt' style={colorTR}>{item.Conversion}</td>
                         </tr>))}
 
 

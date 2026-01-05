@@ -40,13 +40,13 @@ const SingelCategory = () => {
 
 
     return (
-        <div className='mt-5 container'>
+        <div className='mt-5 container' style={{minHeight:"calc(100vh - 200px)"}}>
             <div className='mb-5 reveal-anim'>
                 <div className='d-flex align-items-center justify-content-between border-bottom pb-4'>
                     <div>
                         <nav aria-label="breadcrumb">
                             <ol className="breadcrumb mb-2">
-                                <li className="breadcrumb-item"><Link to="/categories" className="text-decoration-none text-main">Categories</Link></li>
+                                <li className="breadcrumb-item"><Link to="/category" className="text-decoration-none text-main">Categories</Link></li>
                                 <li className="breadcrumb-item active" aria-current="page">{productsCate[0]?.category_name || "Featured"}</li>
                             </ol>
                         </nav>
